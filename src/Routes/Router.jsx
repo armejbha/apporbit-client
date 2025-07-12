@@ -7,7 +7,7 @@ import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
 
 
-const router=createBrowserRouter=([
+export const router=createBrowserRouter=([
     {
         path:"/",
         element:<RootLayouts/>,

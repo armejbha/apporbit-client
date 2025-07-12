@@ -6,14 +6,14 @@ const AuthProvider = ({children}) => {
     const [user,SetUser]=useState(null);
     const {theme,toggleTheme}=useThemeMode();
 
-    const userInf={
+    const userInfo={
         user,
         theme,
         toggleTheme
     }
 
     return (
-        <AuthContext>
+        <AuthContext value={userInfo}>
             {children}
         </AuthContext>
     );

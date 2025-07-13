@@ -1,15 +1,17 @@
 import React from 'react';
 import Logo from '../../Shared/Logo';
 import UserMenu from './Menu/UserMenu';
-import MOderatorMenu from './Menu/ModeratorMenu';
 import AdminMenu from './Menu/AdminMenu';
 import MenuItem from './Menu/MenuItem';
 import { GrLogout, GrOverview } from 'react-icons/gr';
 import useAuth from '../../../Hooks/useAuth';
 import { FcSettings } from 'react-icons/fc';
+import useRole from '../../../Hooks/useRole';
+import ModeratorMenu from './Menu/ModeratorMenu';
 
 const Sidebar = ({toggle,theme,logo}) => {
     const {logOut}=useAuth()
+    const[role,isRoleLoading]=useRole()
     return (
         <div className="drawer-side lg:block transition-all duration-300 ease-in-out">
           <label htmlFor="dashboard-drawer" className="drawer-overlay lg:hidden"></label>
@@ -24,9 +26,9 @@ const Sidebar = ({toggle,theme,logo}) => {
                 {/* part 1 */}
                 <div>
                 <MenuItem icon={GrOverview} label='Overview' address='/dashboard' />
-                <UserMenu/>
-                <MOderatorMenu/>
-                <AdminMenu/>
+                {role === "admin" && <AdminMenu/>}
+                {role === "moderator" && <ModeratorMenu/>}
+                {role === "user" && <UserMenu/>}
               </div>
               {/* part-2  */}
             <div>

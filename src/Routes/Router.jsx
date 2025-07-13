@@ -14,6 +14,7 @@ import ReviewSubmission from "../Pages/Dashboard/Moderator/ReviewSubmission";
 import ReportedProducts from "../Pages/Dashboard/Moderator/ReportedProducts";
 import FeaturedManager from "../Pages/Dashboard/Moderator/FeatureManage";
 import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
+import PrivateRoutes from "./PrivateRoutes";
 
 
 
@@ -40,7 +41,11 @@ export const router=createBrowserRouter([
     },
     {
         path:"/dashboard",
-        element:<DashboardLayouts/>,
+        element:
+        <PrivateRoutes>
+            <DashboardLayouts/>
+        </PrivateRoutes>
+        ,
         children:[
            {
              index:true,

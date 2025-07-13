@@ -1,7 +1,7 @@
 
 import { MdOutlineFeaturedPlayList, MdPreview, MdReport } from 'react-icons/md'
 import MenuItem from './MenuItem'
-const MOderatorMenu = () => {
+const ModeratorMenu = () => {
   return (
     <>
       <MenuItem
@@ -19,4 +19,4 @@ const MOderatorMenu = () => {
   )
 }
 
-export default MOderatorMenu
+export default ModeratorMenu

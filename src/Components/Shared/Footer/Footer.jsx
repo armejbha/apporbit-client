@@ -4,10 +4,12 @@ import logo from '../../../assets/logo.png';
 import Logo from '../Logo';
 import { Link } from 'react-router';
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import useAuth from '../../../Hooks/useAuth';
 
 const Footer = () => {
+    const {theme}=useAuth();
     return (
-        <footer className='bg-[#f6f7f9]'>
+        <footer className={`${theme==="dark" ? 'bg-[#0a0e19]' :'bg-[#faf6f5]'}`}>
             <Container>
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-20">

@@ -8,11 +8,12 @@ import useAuth from "../../../Hooks/useAuth";
 import Container from "../Container";
 import logo from "../../../assets/logo.png";
 import Logo from "../Logo";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, userSignOut, theme, toggleTheme } =useAuth();
+  const { user, logOut, theme, toggleTheme } =useAuth();
 
   // desktop navlink styles
   const navLinkStyles = ({ isActive }) =>
@@ -28,17 +29,16 @@ const Navbar = () => {
     } 
     text-lg font-medium transition hover:text-secondary`;
 
-  // signout
-//   const handleLogout = () => {
-//     userSignOut()
-//       .then(() => {
-//         toast.success("Logged out successfully!");
-//         // navigate("/signIn");
-//       })
-//       .catch((error) => {
-//         toast.error("Logout failed: " + error.message);
-//       });
-//   };
+//   signout
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged out successfully!");
+      })
+      .catch((error) => {
+        toast.error("Logout failed: " + error.message);
+      });
+  };
   return (
     <nav
       className={`py-3 sticky top-0 left-0 right-0 z-50 shadow ${
@@ -82,7 +82,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/logIn"
-                className="btn btn-md border-0 outline-0 bg-primary hover:bg-secondary text-white text-lg px-6 transition-all rounded-md"
+                className="border-0 outline-0 bg-primary hover:bg-secondary text-white text-lg px-6 py-2 transition-all rounded-md"
               >
                 Login
               </Link>
@@ -171,7 +171,7 @@ const Navbar = () => {
                 {user ? (
                   <li className="mt-4">
                     <button
-                    
+                        onClick={handleLogout}
                       className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
                     >
                       Logout

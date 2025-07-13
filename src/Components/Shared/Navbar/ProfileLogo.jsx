@@ -9,18 +9,19 @@ import { NavLink } from "react-router";
 import { IoMdHome } from "react-icons/io";
 import { FcAbout } from "react-icons/fc";
 import useAuth from "../../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const ProfileLogo = () => {
-  const { user, theme } = useAuth();
-//   const handleLogout = () => {
-//     userSignOut()
-//       .then(() => {
-//         toast.success("Logged out successfully!");
-//       })
-//       .catch((error) => {
-//         toast.error("Logout failed: " + error.message);
-//       });
-//   };
+  const { user, logOut} = useAuth();
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged out successfully!");
+      })
+      .catch((error) => {
+        toast.error("Logout failed: " + error.message);
+      });
+  };
   const navLinkStyles = ({ isActive }) =>
     isActive
       ? "text-primary text-lg flex items-center"
@@ -47,7 +48,7 @@ const ProfileLogo = () => {
         </ul>
         <li>
           <button
-            
+            onClick={handleLogout}
             className={`flex items-center text-lg pl-2`}
           >
             <LuLogOut />

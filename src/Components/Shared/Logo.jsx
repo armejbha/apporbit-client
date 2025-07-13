@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
+import useAuth from '../../Hooks/useAuth';
 
-const Logo = ({logo}) => {
+const Logo = ({logo,className}) => {
+    const{theme}=useAuth()
     return (
-        <div>
+        <div className={`${className}`}>
             <Link to="/" className="flex items-center text-4xl font-bold space-x-2">
                <img src={logo} alt="apporbit" className="h-8 w-8 object-contain" />
                <h2 className="">
-                 <span>App</span>
+                 <span className={``}>App</span>
                  <span className="text-primary">Orbit</span>
                </h2>
              </Link>

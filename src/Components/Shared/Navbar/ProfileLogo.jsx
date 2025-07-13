@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FiCreditCard } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
-import { MdContactPhone } from "react-icons/md";
+import { MdContactPhone, MdOutlineSpaceDashboard } from "react-icons/md";
 
 import { LuLogOut } from "react-icons/lu";
 import { NavLink } from "react-router";
@@ -36,17 +36,21 @@ const ProfileLogo = () => {
         />
       </summary>
       <ul className="menu dropdown-content bg-base-100 rounded-md z-10 w-48 p-2 shadow-md mt-2">
-        <ul className="md:hidden">
+        {/* <ul className="md:hidden">
           <li className="my-2 py-1 border-y border-gray-200">
             <NavLink to="/" className={navLinkStyles}>
               <IoMdHome />
               Home
             </NavLink>
-          </li>
-          
-          
-        </ul>
-        <li>
+          </li>    
+        </ul> */}
+        <li className="border-b border-gray-200 py-1">
+            <NavLink to="/dashboard"  className={`flex items-center  text-lg pl-2`}>
+                <MdOutlineSpaceDashboard/>
+                <span className="-mt-[1px]">Dashboard</span>
+            </NavLink>
+        </li>
+        <li className="py-1">
           <button
             onClick={handleLogout}
             className={`flex items-center text-lg pl-2`}

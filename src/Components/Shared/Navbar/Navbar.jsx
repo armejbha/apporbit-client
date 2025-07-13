@@ -1,18 +1,17 @@
-import React, { useContext } from "react";
+
 import { FaMoon, FaSun } from "react-icons/fa";
 import { TiThMenu } from "react-icons/ti";
-import { Link, NavLink, useLocation, useNavigate } from "react-router";
-// import { Tooltip } from "react-tooltip";
+import { Link, NavLink } from "react-router";
 import ProfileLogo from "./ProfileLogo";
 import useAuth from "../../../Hooks/useAuth";
 import Container from "../Container";
 import logo from "../../../assets/logo.png";
 import Logo from "../Logo";
 import toast from "react-hot-toast";
+import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+
   const { user, logOut, theme, toggleTheme } =useAuth();
 
   // desktop navlink styles
@@ -50,8 +49,6 @@ const Navbar = () => {
           {/* Brand Name */}
            
              <Logo logo={logo}></Logo>
-
-
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
@@ -99,9 +96,9 @@ const Navbar = () => {
                   alt="User Avatar"
                   className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
                 />
-                {/* <Tooltip anchorSelect="#user-avatar" place="bottom">
+                <Tooltip anchorSelect="#user-avatar" place="bottom">
                   {user.displayName}
-                </Tooltip> */}
+                </Tooltip>
               </div>
             )}
             <div className="dropdown dropdown-end ml-2">

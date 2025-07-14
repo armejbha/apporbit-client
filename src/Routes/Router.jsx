@@ -7,8 +7,6 @@ import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
 import Overview from "../Pages/Dashboard/Common/Overview";
-import MySubmission from "../Pages/Dashboard/User/MySubmission";
-import AddProducts from "../Pages/Dashboard/User/AddProducts";
 import BecomeModerator from "../Pages/Dashboard/User/BecomeModerator";
 import ReviewSubmission from "../Pages/Dashboard/Moderator/ReviewSubmission";
 import ReportedProducts from "../Pages/Dashboard/Moderator/ReportedProducts";
@@ -18,6 +16,8 @@ import PrivateRoutes from "./PrivateRoutes";
 import ModeratorRoute from "./ModeratorRoute";
 import AdminRoute from "./AdminRoute";
 import Profile from "../Pages/Dashboard/Common/Profile";
+import MyApps from "../Pages/Dashboard/User/MyApps";
+import AddApps from "../Pages/Dashboard/User/AddApps.jsx";
 
 
 
@@ -55,12 +55,12 @@ export const router=createBrowserRouter([
             element:<Overview/>
            },
            {
-            path:'/dashboard/my-submission',
-            element:<MySubmission/>,
+            path:'/dashboard/my-apps',
+            element:<MyApps/>,
            },
            {
-            path:"/dashboard/add-products",
-            element:<AddProducts/>
+            path:"/dashboard/add-apps",
+            element:<AddApps/>
            },
            {
             path:"/dashboard/become-moderator",

@@ -13,8 +13,8 @@ const UserMenu = () => {
   return (
     <>
 
-      <MenuItem icon={BsCollectionFill} label='My Submission' address='/dashboard/my-submission' />
-      <MenuItem icon={BsFillHouseAddFill} label='Add Products' address='/dashboard/add-products' />
+      <MenuItem icon={BsCollectionFill} label='My Apps' address='/dashboard/my-apps' />
+      <MenuItem icon={BsFillHouseAddFill} label='Add Apps' address='/dashboard/add-apps' />
       <MenuItem icon={MdAddModerator} label ="Become A Moderator" address="/dashboard/become-moderator"/>
       {/* <div
 

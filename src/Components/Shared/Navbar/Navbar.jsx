@@ -60,7 +60,7 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="flex items-center md:gap-3">
             {/* Theme Toggle */}
-            {/* <div>
+            <div className="hidden md:flex">
               <button
                 onClick={toggleTheme}
                 className="hover:cursor-pointer text-xl p-2 rounded-full transition"
@@ -71,7 +71,7 @@ const Navbar = () => {
                   <FaSun className="text-yellow-400" />
                 )}
               </button>
-            </div> */}
+            </div>
 
             {/* User Avatar / Login */}
             <div className="hidden lg:flex">

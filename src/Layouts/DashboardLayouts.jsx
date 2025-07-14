@@ -26,7 +26,7 @@ const DashboardLayouts = () => {
             </label>
 
             {/* Page title */}  
-            <div className="flex-1 flex items-center">
+            <div className="flex-1 flex items-center z-50">
               <button onClick={() => setToggle(!toggle)} className="btn btn-ghost hidden md:flex p-0 mr-2">
                 <FiMenu size={24} className={``}/>
               </button>

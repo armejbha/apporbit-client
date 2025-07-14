@@ -1,9 +1,25 @@
 import React from 'react';
+import Loading from '../Shared/Loading/Loading';
+import useApp from '../../Hooks/useApps';
+import VerticalCard from '../Shared/Card/VerticalCard';
 
 const Trending = () => {
+     const {data:apps=[], isLoading, isError}=useApp();
+
+    const trendingApps = [...apps]
+     .sort((a, b) => b.upvotes - a.upvotes)
+     .slice(0, 6); 
+    if(isLoading) return <Loading />
+    if(isError) return <p>Failed to Load Data</p>
     return (
-        <div>
-            
+        <div className='my-20'>
+            <h2 className='text-center text-3xl font-bold text-primary'>Trending Apps</h2>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5 mt-10'>
+                {
+                    trendingApps.map(app=><VerticalCard key={app._id} app={app}></VerticalCard>)
+                }
+
+            </div>
         </div>
     );
 };

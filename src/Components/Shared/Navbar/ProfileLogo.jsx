@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FiCreditCard } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
 import { MdContactPhone, MdOutlineSpaceDashboard } from "react-icons/md";
@@ -10,9 +10,13 @@ import { IoMdHome } from "react-icons/io";
 import { FcAbout } from "react-icons/fc";
 import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import { BsPersonCircle } from "react-icons/bs";
 
 const ProfileLogo = () => {
   const { user, logOut} = useAuth();
+
+
+
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -24,8 +28,8 @@ const ProfileLogo = () => {
   };
   const navLinkStyles = ({ isActive }) =>
     isActive
-      ? "text-primary text-lg flex items-center"
-      : "text-base-content hover:text-primary text-lg flex items-center";
+      ? "text-primary text-lg flex items-center pl-2"
+      : "text-base-content hover:text-primary text-lg flex items-center pl-2";
   return (
     <details className="dropdown dropdown-end">
       <summary className="flex items-center cursor-pointer">
@@ -35,17 +39,23 @@ const ProfileLogo = () => {
           className="w-10 h-10 rounded-full object-cover border border-primary"
         />
       </summary>
-      <ul className="menu dropdown-content bg-base-100 rounded-md z-10 w-48 p-2 shadow-md mt-2">
-        {/* <ul className="md:hidden">
-          <li className="my-2 py-1 border-y border-gray-200">
+      <ul className="menu dropdown-content bg-base-100 rounded-md z-10 w-48 shadow-md mt-2">
+        <li className="border-b border-gray-200">
+            <NavLink   className={navLinkStyles}>
+                <BsPersonCircle />
+                <span className="-mt-[1px]">{user?.displayName}</span>
+            </NavLink>
+        </li>
+        <ul className="md:hidden">
+          <li className=" border-y border-gray-200">
             <NavLink to="/" className={navLinkStyles}>
               <IoMdHome />
               Home
             </NavLink>
           </li>    
-        </ul> */}
-        <li className="border-b border-gray-200 py-1">
-            <NavLink to="/dashboard"  className={`flex items-center  text-lg pl-2`}>
+        </ul>
+        <li className="border-b border-gray-200">
+            <NavLink to="/dashboard"  className={navLinkStyles}>
                 <MdOutlineSpaceDashboard/>
                 <span className="-mt-[1px]">Dashboard</span>
             </NavLink>

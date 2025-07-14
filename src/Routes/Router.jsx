@@ -15,6 +15,9 @@ import ReportedProducts from "../Pages/Dashboard/Moderator/ReportedProducts";
 import FeaturedManager from "../Pages/Dashboard/Moderator/FeatureManage";
 import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
 import PrivateRoutes from "./PrivateRoutes";
+import ModeratorRoute from "./ModeratorRoute";
+import AdminRoute from "./AdminRoute";
+import Profile from "../Pages/Dashboard/Common/Profile";
 
 
 
@@ -48,7 +51,7 @@ export const router=createBrowserRouter([
         ,
         children:[
            {
-             index:true,
+            index:true,
             element:<Overview/>
            },
            {
@@ -65,19 +68,42 @@ export const router=createBrowserRouter([
            },
            {
             path:"/dashboard/review-submission",
-            element:<ReviewSubmission/>
+            element:<PrivateRoutes>
+                <ModeratorRoute>
+                    <ReviewSubmission/>
+                </ModeratorRoute>
+            </PrivateRoutes>
            },
            {
             path:"/dashboard/reported-products",
-            element:<ReportedProducts/>
+            element:
+            <PrivateRoutes>
+                <ModeratorRoute>
+                    <ReportedProducts/>
+                </ModeratorRoute>
+            </PrivateRoutes>
            },
            {
             path:"/dashboard/feature-manage",
-            element:<FeaturedManager/>
+            element:<PrivateRoutes>
+                <ModeratorRoute>
+                    <FeaturedManager/>
+                </ModeratorRoute>
+            </PrivateRoutes>
            },
            {
             path:"/dashboard/manage-users",
-            element:<ManageUser/>
+            element:<PrivateRoutes>
+                <AdminRoute>
+                    <ManageUser/>
+                </AdminRoute>
+            </PrivateRoutes>
+           },
+           {
+            path:"/dashboard/profile",
+            element:<PrivateRoutes>
+                <Profile/>
+            </PrivateRoutes>
            }
         ]
     },

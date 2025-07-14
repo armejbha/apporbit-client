@@ -58,8 +58,38 @@ const Navbar = () => {
           </div>
 
           {/* Right Section */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="flex items-center md:gap-3">
             {/* Theme Toggle */}
+            {/* <div>
+              <button
+                onClick={toggleTheme}
+                className="hover:cursor-pointer text-xl p-2 rounded-full transition"
+              >
+                {theme === "light" ? (
+                  <FaMoon className="text-gray-800" />
+                ) : (
+                  <FaSun className="text-yellow-400" />
+                )}
+              </button>
+            </div> */}
+
+            {/* User Avatar / Login */}
+            <div className="hidden lg:flex">
+                {user ? (
+              <ProfileLogo></ProfileLogo>
+            ) : (
+              <Link
+                to="/logIn"
+                className="border-0 outline-0 bg-primary hover:bg-secondary text-white text-lg px-6 py-2 transition-all rounded-md"
+              >
+                Login
+              </Link>
+            )}
+            </div>
+          </div>
+
+          {/* Mobile Dropdown */}
+          <div className="flex md:hidden items-center">
             <div>
               <button
                 onClick={toggleTheme}
@@ -72,36 +102,10 @@ const Navbar = () => {
                 )}
               </button>
             </div>
-
-            {/* User Avatar / Login */}
             {user ? (
-              <ProfileLogo></ProfileLogo>
-            ) : (
-              <Link
-                to="/logIn"
-                className="border-0 outline-0 bg-primary hover:bg-secondary text-white text-lg px-6 py-2 transition-all rounded-md"
-              >
-                Login
-              </Link>
-            )}
-          </div>
-
-          {/* Mobile Dropdown */}
-          <div className="flex md:hidden items-center">
-            {user && (
-              <div>
-                <img
-                  id="user-avatar"
-                  src={user?.photoURL}
-                  alt="User Avatar"
-                  className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
-                />
-                <Tooltip anchorSelect="#user-avatar" place="bottom">
-                  {user.displayName}
-                </Tooltip>
-              </div>
-            )}
-            <div className="dropdown dropdown-end ml-2">
+              <ProfileLogo/>
+            ):(
+                <div className="dropdown dropdown-end ml-2">
               <label tabIndex={0} className="btn btn-ghost btn-circle">
                 <TiThMenu className="text-2xl text-primary" />
               </label>
@@ -114,37 +118,17 @@ const Navbar = () => {
                     Home
                   </NavLink>
                 </li>
-                
-                {/* <li>
-                  <details>
-                    <summary
-                      className={`${mobileNavLinkStyles} text-lg font-medium px-[13px] py-1 whitespace-nowrap cursor-pointer`}
-                    >
-                      My Profile
-                    </summary>
-                    <ul>
-                      <li>
-                        <NavLink
-                          to="/addVolunteer"
-                          className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
-                        >
-                          Add Volunteer Need
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/manageMyPost"
-                          className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
-                        >
-                          Manage My Posts
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </details>
-                </li> */}
+                <li>
+                    <Link
+                    to="/logIn"
+                    className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-primary-content"
+                  >
+                    Login
+                  </Link>
+                </li>
 
                 {/* Theme Toggle (Mobile) */}
-                <li>
+                {/* <li>
                   <button
                     onClick={toggleTheme}
                     className="flex items-center gap-2 text-lg p-2 w-full"
@@ -163,9 +147,9 @@ const Navbar = () => {
                       </>
                     )}
                   </button>
-                </li>
+                </li> */}
 
-                {user ? (
+                {/* {user ? (
                   <li className="mt-4">
                     <button
                         onClick={handleLogout}
@@ -175,15 +159,20 @@ const Navbar = () => {
                     </button>
                   </li>
                 ) : (
-                  <Link
+                    <li>
+                        <Link
                     to="/logIn"
                     className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-primary-content"
                   >
                     Login
                   </Link>
-                )}
+                    </li>
+                )} */}
               </ul>
             </div>
+            )
+        }
+            
           </div>
         </div>
       </Container>

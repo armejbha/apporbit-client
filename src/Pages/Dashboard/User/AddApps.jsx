@@ -24,18 +24,18 @@ const AddPlant = () => {
     const form = e.target
     const name = form?.name?.value
     const title = form?.title?.value
-    const description = form?.description?.value
+    const rawDescription = form?.description?.value
     const website=form?.website?.value
     const image=form?.photo.value
     const ownerName=form?.ownerName.value
     const ownerEmail=form?.ownerEmail.value
-
+    const descriptionArray=parseDescriptionText(rawDescription);
     try {
       const appsData = {
         name,
         title,
         website,
-        description,
+        description:descriptionArray,
         tags,
         createdAt: new Date().toISOString(),
         image: uploadedImage,
@@ -85,11 +85,11 @@ const AddPlant = () => {
       setTagInput={setTagInput}
       tags={tags}
       setTags={setTags}
-        handleFormSubmit={handleFormSubmit}
-        isUploading={isUploading}
-        uploadedImage={uploadedImage}
-        handleImageUpload={handleImageUpload}
-        imageUploadError={imageUploadError}
+      handleFormSubmit={handleFormSubmit}
+      isUploading={isUploading}
+      uploadedImage={uploadedImage}
+      handleImageUpload={handleImageUpload}
+      imageUploadError={imageUploadError}
       />
     </div>
   )

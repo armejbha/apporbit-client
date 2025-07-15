@@ -78,12 +78,12 @@ const VerticalCard = ({ app }) => {
 
  
   return (
-    <Link to={`/appsDetails/${app._id}`} className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'bg-[#faf6f7] hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl p-4 flex flex-col items-center text-center transition-all duration-300`}>
+    <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'bg-[#faf6f7] hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl p-4 flex flex-col items-center text-center transition-all duration-300`}>
       <img src={app.image} alt={app.name} className="w-24 h-24 object-cover rounded-lg mb-3" />
-      <h2 className="text-lg font-bold group-hover:text-primary transition-colors">
+      <Link to={`/appsDetails/${app._id}`}  className="text-lg font-bold group-hover:text-primary transition-colors">
         {app.name}
         <span className="text-sm font-normal text-gray-500 ml-1">· {formatDate(app.createdAt)}</span>
-      </h2>
+      </Link>
       <p className="text-sm font-medium text-gray-600 mt-1">{app.title}</p>
       <div className="flex flex-wrap justify-center gap-2 mt-2">
         {app.tags.map((tag, i) => (
@@ -113,7 +113,7 @@ const VerticalCard = ({ app }) => {
           <LuTriangle className={`${theme === "dark" ? 'text-white hover:text-black' : ''} transition-all duration-100`} />
         </button>
       </div>
-    </Link>
+    </div>
   );
 };
 

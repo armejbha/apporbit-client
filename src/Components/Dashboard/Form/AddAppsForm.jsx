@@ -74,7 +74,7 @@ const AddAppsForm = ({
               id="description"
               rows={5}
               className="px-4 py-2  rounded w-full text-lg border-none outline-1 outline-gray-200 focus:outline-primary"
-              placeholder="Write a description..."
+              placeholder="write description as Answer Question use :"
             ></textarea>
           </div>
         </div>

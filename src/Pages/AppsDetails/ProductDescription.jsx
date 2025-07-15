@@ -19,10 +19,21 @@ const ProductDescription = () => {
   if(isLoading) return <Loading height={true}/>
   console.log(app);
     return (
-        <div>
-            <h3>overview:</h3>
-            <p>{app.description}</p>
-        </div>
+        <div className="space-y-4">
+  <h3 className="text-xl font-bold mb-2">Overview:</h3>
+
+  {Array.isArray(app.description) ? (
+    app.description.map((item, index) => (
+      <div key={index}>
+        <h4 className="font-semibold">{item.label}</h4>
+        <p>{item.content}</p>
+      </div>
+    ))
+  ) : (
+    <p>{app.description}</p>
+  )}
+</div>
+
     );
 };
 

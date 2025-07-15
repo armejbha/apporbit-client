@@ -75,7 +75,7 @@ const HorizontalCard = ({ app }) => {
   };
 
   return (
-    <Link to={`/appsDetails/${app._id}`} className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
+    <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
       {/* Left Section */}
       <div className="flex gap-4 w-full">
         <img
@@ -84,10 +84,10 @@ const HorizontalCard = ({ app }) => {
           className="w-24 h-24 object-cover rounded-lg"
         />
         <div className="flex flex-col">
-          <h2 className="text-lg font-bold group-hover:text-primary transition-colors">
+          <Link to={`/appsDetails/${app._id}`}  className="text-lg font-bold group-hover:text-primary transition-colors">
             {app.name}
             <span className="text-sm font-normal text-gray-500 ml-2">· {formatDate(app.createdAt)}</span>
-          </h2>
+          </Link>
           <p className="text-sm font-medium text-gray-600 ">{app.title}</p>
           <div className="flex gap-2 mt-2 flex-wrap">
             {app.tags.map((tag, i) => (
@@ -122,7 +122,7 @@ const HorizontalCard = ({ app }) => {
           <TbTriangleInverted />
         </button>
       </div>
-    </Link>
+    </div>
   );
 };
 

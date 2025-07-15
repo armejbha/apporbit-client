@@ -18,7 +18,7 @@ const AppsDetails = () => {
   const queryClient = useQueryClient();
   const [review, setReview] = useState("");
   const [rating, setRating] = useState("");
- console.log(typeof rating);
+
   // Fetch product details
   const { data: app = {}, isLoading } = useQuery({
     queryKey: ["app", id],
@@ -27,7 +27,6 @@ const AppsDetails = () => {
       return res.data;
     },
   });
-console.log(app);
 
 // voting controll 
 
@@ -73,6 +72,7 @@ console.log(app);
     upvoteMutation.mutate();
   };
 
+//   downvote
   const handleDownvote = () => {
     if (!user) {
       navigate('/login');
@@ -83,63 +83,69 @@ console.log(app);
     undoUpvoteMutation.mutate();
   };
 
+//   review data post 
+const reviewMutation = useMutation({
+  mutationFn: async (reviewData) => {
+    const res = await axiosSecure.post("/reviews", reviewData);
+    return res.data;
+  },
+  onSuccess: () => {
+    toast.success("Review posted!");
+    queryClient.invalidateQueries(["reviews", id]); // Refetch reviews for this app
+    setReview("");
+    setRating("");
+  },
+  onError: () => {
+    toast.error("Failed to post review.");
+  }
+});
+
+
+// review handle 
   const handleReviewSubmit=(e)=>{
     e.preventDefault();
+    const form =e.target
     const reviewData={
         productId:id,
-        review,
+        review:review,
         rating:parseFloat(rating),
         reviewerName:user?.displayName,
         reviewerImg:user?.photoURL
     }
-    console.log(reviewData);
+    console.log(reviewData.rating);
+    reviewMutation.mutate(reviewData);
+    form.reset()
   }
 
 
+const reportMutation = useMutation({
+  mutationFn: async () => {
+    const res = await axiosSecure.post("/reports", {
+      appId: app._id,
+      userEmail: user?.email
+    });
+    return res.data;
+  },
+  onSuccess: () => {
+    toast.success("Report submitted");
+  },
+  onError: (error) => {
+    const msg = error.response?.data?.message || "Failed to report";
+    toast.error(msg);
+  }
+});
 
 
-  // Fetch reviews
-//   const { data: reviews = [] } = useQuery({
-//     queryKey: ["reviews", appId],
-//     queryFn: async () => {
-//       const res = await axiosSecure.get(`/reviews?productId=${appId}`);
-//       return res.data;
-//     },
-//   });
+const handleReport = () => {
+  if (!user) {
+    toast.error("You must be logged in to report.");
+    return;
+  }
+  reportMutation.mutate();
+};
 
-  // Report
-//   const handleReport = async () => {
-//     try {
-//       await axiosSecure.post(`/reports`, { appId, userEmail: user?.email });
-//       toast.success("Reported successfully!");
-//     } catch (err) {
-//       toast.error("Failed to report.");
-//     }
-//   };
 
-  // Submit Review
-//   const handleSubmitReview = async (e) => {
-//     e.preventDefault();
-//     if (!reviewDesc || rating <= 0) return toast.error("Please fill out all fields");
 
-//     const reviewData = {
-//       reviewerName: user?.displayName,
-//       reviewerImage: user?.photoURL,
-//       description: reviewDesc,
-//       rating,
-//       productId: appId,
-//     };
-
-//     try {
-//       await axiosSecure.post("/reviews", reviewData);
-//       toast.success("Review posted!");
-//       queryClient.invalidateQueries(["reviews", appId]);
-//       setReviewDesc("");
-//       setRating(0);
-//     } catch (err) {
-//       toast.error("Failed to post review.");
-//     }
-//   };
 
 //   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
 
@@ -186,9 +192,13 @@ console.log(app);
               ))}
             </div>
             <div className="flex items-center justify-between">
-               <button className="text-red-500 text-sm px-4 py-1 border border-red-500 rounded hover:bg-primary hover:text-white">
-                  Report
-               </button>
+               <button
+                      onClick={handleReport}
+                      disabled={reportMutation.isLoading}
+                      className="text-red-500 text-sm px-4 py-1 border border-red-500 rounded hover:bg-red-100 dark:hover:bg-red-900 disabled:opacity-60"
+                    >
+                      {reportMutation.isLoading ? "Reporting..." : "Report"}
+                    </button>
               <div className="flex md:hidden items-center justify-center gap-1">
                 <button
                   onClick={handleUpvote}
@@ -275,71 +285,6 @@ console.log(app);
   />
 </div>
 
-
-      {/* Reviews Section */}
-      {/* <div className="mt-10">
-        <h3 className="text-xl font-bold mb-4">Reviews</h3>
-        {reviews.length === 0 ? (
-          <p className="text-gray-500">No reviews yet.</p>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-4">
-            {reviews.map((review) => (
-              <div key={review._id} className="border p-4 rounded-lg bg-white dark:bg-[#1c2333]">
-                <div className="flex items-center gap-3 mb-2">
-                  <img src={review.reviewerImage} alt="user" className="w-10 h-10 rounded-full object-cover" />
-                  <div>
-                    <p className="font-semibold">{review.reviewerName}</p>
-                    <p className="text-sm text-yellow-500">Rating: {review.rating}/5</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 dark:text-gray-300">{review.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div> */}
-
-      {/* Post Review Form */}
-      {/* {user && (
-        <form onSubmit={handleSubmitReview} className="mt-10 border-t pt-6">
-          <h3 className="text-xl font-bold mb-4">Post a Review</h3>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Your Name</label>
-            <input type="text" value={user.displayName} disabled className="input input-bordered w-full" />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Your Image</label>
-            <input type="text" value={user.photoURL} disabled className="input input-bordered w-full" />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Description</label>
-            <textarea
-              className="textarea textarea-bordered w-full"
-              rows="4"
-              value={reviewDesc}
-              onChange={(e) => setReviewDesc(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium">Rating (1-5)</label>
-            <input
-              type="number"
-              className="input input-bordered w-full"
-              value={rating}
-              onChange={(e) => setRating(parseFloat(e.target.value))}
-              min={1}
-              max={5}
-              step={0.5}
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">
-            Submit Review
-          </button>
-        </form>
-      )} */}
     </Container>
    </div>
   );

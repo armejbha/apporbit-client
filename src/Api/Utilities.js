@@ -22,3 +22,17 @@ export const saveUserInDb = async user => {
 
     return data
 }
+
+
+export const parseDescriptionText = (text) => {
+    return text
+        .split("\n") 
+        .filter(Boolean) 
+        .map((line) => {
+            const [label, ...rest] = line.split(":");
+            return {
+                label: label.trim(),
+                content: rest.join(":").trim(), 
+            };
+        });
+};

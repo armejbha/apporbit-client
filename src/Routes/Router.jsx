@@ -18,6 +18,9 @@ import AdminRoute from "./AdminRoute";
 import Profile from "../Pages/Dashboard/Common/Profile";
 import MyApps from "../Pages/Dashboard/User/MyApps";
 import AddApps from "../Pages/Dashboard/User/AddApps.jsx";
+import AppsDetails from "../Pages/AppsDetails/AppsDetails.jsx";
+import ProductDescription from "../Pages/AppsDetails/ProductDescription.jsx";
+import ProductReviews from "../Pages/AppsDetails/ProductReviews.jsx";
 
 
 
@@ -30,6 +33,29 @@ export const router=createBrowserRouter([
             {
                 index:true,
                 element:<Home/>
+            },
+            {
+                path:"/appsDetails/:id",
+                element:(
+                <PrivateRoutes>
+                    <AppsDetails></AppsDetails>
+                </PrivateRoutes>
+                ),
+                children: [
+                   {
+                     index:true,
+                     element: <ProductDescription />
+                   },
+                   {
+                     path:"description",
+                     element: <ProductDescription />
+                   },
+                   {
+                     path: "reviews",
+                     element: <ProductReviews />
+                   }
+                 ]
+
             },
             {
                 path:"login",

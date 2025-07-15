@@ -2,9 +2,10 @@ import { useState } from "react";
 import useAuth from "../../../Hooks/useAuth";
 import { LuTriangle } from "react-icons/lu";
 import { TbTriangleInverted } from "react-icons/tb";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
@@ -16,46 +17,41 @@ const formatDate = (dateStr) => {
 };
 
 const HorizontalCard = ({ app }) => {
+  const axiosSecure=useAxiosSecure();
   const navigate = useNavigate();
   const { user, theme } = useAuth();
   const queryClient = useQueryClient();
 
   // Local state for votes (optional, you can also rely on refetching after mutation)
-  const [votes, setVotes] = useState(app?.upvotes);
+  const [votes, setVotes] = useState(app?.upvotes||0);
 
   const isOwner = user?.email === app.owner.email;
   const hasUserUpvoted = user ? app.voters?.includes(user.email) : false;
 
   // Upvote mutation
-  const upvoteMutation = useMutation(
-    () => axios.patch(`/apps/upvote/${app._id}`, { user: user.email }),
-    {
-      onSuccess: (res) => {
-        // Option 1: Update local votes count directly:
-        setVotes(prev => prev + 1);
-
-        // Option 2: Invalidate and refetch app data if you have a query for it:
-        queryClient.invalidateQueries(['apps', app._id]);
-      },
-      onError: (error) => {
-        alert(error.response?.data?.message || 'Upvote failed');
-      },
-    }
-  );
+  const upvoteMutation = useMutation({
+  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user.email }),
+  onSuccess: () => {
+    setVotes(prev => prev + 1);
+    queryClient.invalidateQueries(['apps', app._id]);
+  },
+  onError: (error) => {
+    alert(error.response?.data?.message || 'Upvote failed');
+  },
+});
 
   // Undo upvote mutation
-  const undoUpvoteMutation = useMutation(
-    () => axios.patch(`/apps/undo-upvote/${app._id}`, { user: user.email }),
-    {
-      onSuccess: () => {
-        setVotes(prev => prev - 1);
-        queryClient.invalidateQueries(['apps', app._id]);
-      },
-      onError: (error) => {
-        alert(error.response?.data?.message || 'Undo upvote failed');
-      },
-    }
-  );
+  const undoUpvoteMutation = useMutation({
+  mutationFn: () => axiosSecure.patch(`/apps/undo-upvote/${app._id}`, { user: user.email }),
+  onSuccess: () => {
+    setVotes(prev => prev - 1);
+    queryClient.invalidateQueries(['apps', app._id]);
+  },
+  onError: (error) => {
+    alert(error.response?.data?.message || 'Undo upvote failed');
+  },
+});
+
 
   // Handlers for button clicks, redirect if no user
   const handleUpvote = () => {
@@ -79,7 +75,7 @@ const HorizontalCard = ({ app }) => {
   };
 
   return (
-    <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
+    <Link to={`/appsDetails/${app._id}`} className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
       {/* Left Section */}
       <div className="flex gap-4 w-full">
         <img
@@ -126,7 +122,7 @@ const HorizontalCard = ({ app }) => {
           <TbTriangleInverted />
         </button>
       </div>
-    </div>
+    </Link>
   );
 };
 

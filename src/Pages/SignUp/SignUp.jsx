@@ -131,7 +131,7 @@ const SignUp = () => {
           </div>
        
 
-            <div>
+    <div>
       <p className="text-lg font-semibold mb-2">Select Image</p>
       
       <label

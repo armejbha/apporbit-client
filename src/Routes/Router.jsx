@@ -56,8 +56,14 @@ export const router=createBrowserRouter([
            },
            {
             path:'/dashboard/my-apps',
-            element:<MyApps/>,
+            element:<PrivateRoutes>
+                <MyApps/>
+            </PrivateRoutes>,
            },
+        //    {
+        //     path:'/dashboard/my-apps/:id',
+        //     element:
+        //    },
            {
             path:"/dashboard/add-apps",
             element:<AddApps/>

@@ -4,45 +4,57 @@ import useAuth from '../../../Hooks/useAuth'
 import { useState } from 'react'
 import { imageUpload } from '../../../Api/Utilities'
 import AddAppsForm from '../../../Components/Dashboard/Form/AddAppsForm'
+import toast from 'react-hot-toast'
+import { axiosSecure } from '../../../Hooks/useAxiosSecure'
+import { useNavigate } from 'react-router'
 
 
 const AddPlant = () => {
   const { user } = useAuth()
+  const navigate=useNavigate();
   const [isUploading, setIsUploading] = useState(false)
   const [uploadedImage, setUploadedImage] = useState(null)
   const [imageUploadError, setImageUploadError] = useState(false)
+    const [tagInput, setTagInput] = useState('');
+    const [tags, setTags] = useState([]);
+    console.log(tags);
   const handleFormSubmit = async e => {
     e.preventDefault()
     setIsUploading(true)
     const form = e.target
     const name = form?.name?.value
-    const category = form?.category?.value
+    const title = form?.title?.value
     const description = form?.description?.value
-    const price = form?.price?.value
-    const quantity = form?.quantity?.value
+    const website=form?.website?.value
+    const image=form?.photo.value
+    const ownerName=form?.ownerName.value
+    const ownerEmail=form?.ownerEmail.value
 
     try {
       const appsData = {
         name,
-        category,
+        title,
+        website,
         description,
-        price: parseFloat(price),
-        quantity: parseInt(quantity),
+        tags,
+        createdAt: new Date().toISOString(),
         image: uploadedImage,
-        seller: {
-          name: user?.displayName,
-          email: user?.email,
-          image: user?.photoURL,
+        upvotes:0,
+        owner: {
+          name: ownerName,
+          email: ownerEmail,
+          image
         },
       }
-
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/add-apps`,
-        plantData
+      const { data } = await axiosSecure.post('/add-apps',
+        appsData
       )
-      toast.success('Apps Data Added Successfully')
-      form.reset()
-      console.log(data)
+      if(data.insertedId){
+        toast.success('Apps Data Added Successfully')
+        form.reset()
+        navigate('/dashboard/my-apps')
+      }
+      
     } catch (err) {
       console.log(err)
     } finally {
@@ -52,13 +64,13 @@ const AddPlant = () => {
 
   const handleImageUpload = async e => {
     e.preventDefault()
+    setIsUploading(true)
     const image = e.target.files[0]
-    console.log(image)
     try {
       // image url response from imgbb
       const imageUrl = await imageUpload(image)
-      console.log(imageUrl)
       setUploadedImage(imageUrl)
+      setIsUploading(false)
     } catch (err) {
       setImageUploadError('Image Upload Failed')
       console.log(err)
@@ -68,6 +80,10 @@ const AddPlant = () => {
     <div>
       {/* Form */}
       <AddAppsForm
+      tagInput={tagInput}
+      setTagInput={setTagInput}
+      tags={tags}
+      setTags={setTags}
         handleFormSubmit={handleFormSubmit}
         isUploading={isUploading}
         uploadedImage={uploadedImage}

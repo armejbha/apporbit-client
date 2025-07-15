@@ -41,13 +41,13 @@ const ProfileLogo = () => {
       </summary>
       <ul className="menu dropdown-content bg-base-100 rounded-md z-10 w-48 shadow-md mt-2">
         <li className="border-b border-gray-200">
-            <NavLink   className={navLinkStyles}>
+            <NavLink to="/dashboard/profile"   className={navLinkStyles}>
                 <BsPersonCircle />
                 <span className="-mt-[1px]">{user?.displayName}</span>
             </NavLink>
         </li>
         <ul className="md:hidden">
-          <li className=" border-y border-gray-200">
+          <li  className=" border-y border-gray-200">
             <NavLink to="/" className={navLinkStyles}>
               <IoMdHome />
               Home
@@ -55,7 +55,7 @@ const ProfileLogo = () => {
           </li>    
         </ul>
         <li className="border-b border-gray-200">
-            <NavLink to="/dashboard"  className={navLinkStyles}>
+            <NavLink end to="/dashboard"  className={navLinkStyles}>
                 <MdOutlineSpaceDashboard/>
                 <span className="-mt-[1px]">Dashboard</span>
             </NavLink>

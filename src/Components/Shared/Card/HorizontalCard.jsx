@@ -4,8 +4,8 @@ import { LuTriangle } from "react-icons/lu";
 import { TbTriangleInverted } from "react-icons/tb";
 import { Link, useNavigate } from "react-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
@@ -25,18 +25,18 @@ const HorizontalCard = ({ app }) => {
   // Local state for votes (optional, you can also rely on refetching after mutation)
   const [votes, setVotes] = useState(app?.upvotes||0);
 
-  const isOwner = user?.email === app.owner.email;
-  const hasUserUpvoted = user ? app.voters?.includes(user.email) : false;
+  const isOwner = user?.email === app.owner?.email;
+  const hasUserUpvoted = user ? app.voters?.includes(user?.email) : false;
 
   // Upvote mutation
   const upvoteMutation = useMutation({
-  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user.email }),
+  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user?.email }),
   onSuccess: () => {
     setVotes(prev => prev + 1);
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
-    alert(error.response?.data?.message || 'Upvote failed');
+    toast(error.response?.data?.message || 'Upvote failed');
   },
 });
 
@@ -48,7 +48,7 @@ const HorizontalCard = ({ app }) => {
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
-    alert(error.response?.data?.message || 'Undo upvote failed');
+    toast(error.response?.data?.message || 'Undo upvote failed');
   },
 });
 

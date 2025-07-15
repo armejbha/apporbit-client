@@ -8,15 +8,17 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Container from "../../Components/Shared/Container";
+import PostProductReview from "./PostAppsReview";
+import PostAppsReview from "./PostAppsReview";
 
 const AppsDetails = () => {
   const {id } = useParams();
   const { user,theme } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
-  const [reviewDesc, setReviewDesc] = useState("");
-  const [rating, setRating] = useState(0);
-
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState("");
+ console.log(typeof rating);
   // Fetch product details
   const { data: app = {}, isLoading } = useQuery({
     queryKey: ["app", id],
@@ -26,6 +28,76 @@ const AppsDetails = () => {
     },
   });
 console.log(app);
+
+// voting controll 
+
+  // Local state for votes (optional, you can also rely on refetching after mutation)
+  const [votes, setVotes] = useState(app?.upvotes||0);
+
+  const isOwner = user?.email === app?.owner?.email;
+  const hasUserUpvoted = user ? app.voters?.includes(user.email) : false;
+
+  // Upvote mutation
+  const upvoteMutation = useMutation({
+  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user.email }),
+  onSuccess: () => {
+    setVotes(prev => prev + 1);
+    queryClient.invalidateQueries(['apps', app._id]);
+  },
+  onError: (error) => {
+    toast(error.response?.data?.message || 'Upvote failed');
+  },
+});
+
+  // Undo upvote mutation
+  const undoUpvoteMutation = useMutation({
+  mutationFn: () => axiosSecure.patch(`/apps/undo-upvote/${app._id}`, { user: user.email }),
+  onSuccess: () => {
+    setVotes(prev => prev - 1);
+    queryClient.invalidateQueries(['apps', app._id]);
+  },
+  onError: (error) => {
+    toast(error.response?.data?.message || 'Undo upvote failed');
+  },
+});
+
+
+  // Handlers for button clicks, redirect if no user
+  const handleUpvote = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (isOwner || hasUserUpvoted) return;
+
+    upvoteMutation.mutate();
+  };
+
+  const handleDownvote = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (isOwner || !hasUserUpvoted) return;
+
+    undoUpvoteMutation.mutate();
+  };
+
+  const handleReviewSubmit=(e)=>{
+    e.preventDefault();
+    const reviewData={
+        productId:id,
+        review,
+        rating:parseFloat(rating),
+        reviewerName:user?.displayName,
+        reviewerImg:user?.photoURL
+    }
+    console.log(reviewData);
+  }
+
+
+
+
   // Fetch reviews
 //   const { data: reviews = [] } = useQuery({
 //     queryKey: ["reviews", appId],
@@ -33,18 +105,6 @@ console.log(app);
 //       const res = await axiosSecure.get(`/reviews?productId=${appId}`);
 //       return res.data;
 //     },
-//   });
-
-  // Upvote Mutation
-//   const upvoteMutation = useMutation({
-//     mutationFn: () => axiosSecure.patch(`/apps/upvote/${appId}`, { user: user?.email }),
-//     onSuccess: () => queryClient.invalidateQueries(["app", appId]),
-//   });
-
-  // Downvote Mutation
-//   const downvoteMutation = useMutation({
-//     mutationFn: () => axiosSecure.patch(`/apps/undoUpvote/${appId}`, { user: user?.email }),
-//     onSuccess: () => queryClient.invalidateQueries(["app", appId]),
 //   });
 
   // Report
@@ -87,9 +147,9 @@ console.log(app);
    <div className="my-20">
      <Container>
       {/* Product Info */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-10">
   {/* Main Content Area (Left Section) */}
-  <div className="md:col-span-3 space-y-6">
+  <div className="md:col-span-4 space-y-6">
     {/* App Info Card */}
     <div className={`shadow-md p-4 md:p-6 rounded-xl ${theme === "dark" ? 'bg-[#0a0e19]' : 'bg-white'}`}>
       <div className="flex flex-col md:flex-row md:justify-between gap-6">
@@ -114,7 +174,7 @@ console.log(app);
                 </a>
               )}
             </h2>
-            <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">{app.title}</p>
+            <p className="text-base md:text-lg ">{app.title}</p>
             <div className="flex flex-wrap gap-2">
               {app.tags?.map((tag, i) => (
                 <span
@@ -131,16 +191,16 @@ console.log(app);
                </button>
               <div className="flex md:hidden items-center justify-center gap-1">
                 <button
-
+                  onClick={handleUpvote}
                   disabled={!user}
                   className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 transition-all duration-100`}
                 >
                   <TbTriangleInverted />
                 </button>
-                <p className="font-bold">{app.upvotes?.length || 0}</p>
+                <p className="font-bold">{app?.upvotes}</p>
 
                 <button
-
+                  onClick={handleDownvote}
                   disabled={!user}
                   className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 transition-all duration-100`}
                 >
@@ -155,15 +215,17 @@ console.log(app);
         <div className="hidden md:flex justify-center md:items-center">
           <div className="flex md:flex-col items-center gap-1">
             <button
+              onClick={handleUpvote}
               disabled={!user || user?.email === app.ownerEmail}
-              className="p-2 border rounded hover:bg-gray-100 dark:hover:bg-[#333] disabled:opacity-50"
+              className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
             >
               <LuTriangle />
             </button>
-            <p className="font-bold">{app.upvotes?.length || 0}</p>
+            <p className="font-bold">{app?.upvotes}</p>
             <button
+               onClick={handleDownvote}
               disabled={!user || user?.email === app.ownerEmail}
-              className="p-2 border rounded hover:bg-gray-100 dark:hover:bg-[#333] disabled:opacity-50"
+              className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
             >
               <TbTriangleInverted />
             </button>
@@ -203,10 +265,14 @@ console.log(app);
   </div>
 
   {/* Right Sidebar / Comments */}
-  <div className={`shadow-md p-4 md:p-6 rounded-xl ${theme === "dark" ? 'bg-[#0a0e19]' : 'bg-white'}`}>
-    <h3 className="font-semibold mb-2">Comment on this section</h3>
-    {/* Add your comment form or section here */}
-  </div>
+ 
+  <PostAppsReview 
+  theme={theme} 
+  user={user} 
+  setReview={setReview}
+  setRating={setRating}
+  handleReviewSubmit={handleReviewSubmit}
+  />
 </div>
 
 

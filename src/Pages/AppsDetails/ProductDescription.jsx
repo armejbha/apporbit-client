@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Loading from '../../Components/Shared/Loading/Loading';
+import { useQuery } from '@tanstack/react-query';
 
 const ProductDescription = () => {
     const {id}=useParams();
@@ -19,7 +20,8 @@ const ProductDescription = () => {
   console.log(app);
     return (
         <div>
-            this is description 
+            <h3>overview:</h3>
+            <p>{app.description}</p>
         </div>
     );
 };

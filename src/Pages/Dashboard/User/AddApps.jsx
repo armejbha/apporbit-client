@@ -40,6 +40,7 @@ const AddPlant = () => {
         createdAt: new Date().toISOString(),
         image: uploadedImage,
         upvotes:0,
+        status:"pending",
         owner: {
           name: ownerName,
           email: ownerEmail,

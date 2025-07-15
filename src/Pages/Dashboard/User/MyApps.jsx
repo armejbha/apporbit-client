@@ -42,100 +42,105 @@ const hasApps = apps.length > 0;
 
 
     return (
-       <div className="md:p-4 max-w-6xl md:ml-17">
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center text-xl mb-6 text-primary hover:underline"
-      >
-        <IoIosArrowRoundBack size={30} /> Go Back
-      </button>
-      <h3 className="text-3xl font-semibold mb-10 text-primary">
-        My Apps
-      </h3>
+       <div className="md:p-4 md:ml-17">
+  <button
+    onClick={() => navigate(-1)}
+    className="flex items-center text-xl mb-6 text-primary hover:underline"
+  >
+    <IoIosArrowRoundBack size={30} /> Go Back
+  </button>
 
-      {hasApps ? (
-        <>
-        <div className="overflow-x-auto">
-          <table className="table  w-full">
-            {/* Table Head */}
-            <thead className="bg-base-200 text-base-content text-lg">
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th className='text-center'>Upvotes</th>
-                <th>Status</th>
-                <th className="text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {apps.map((app) => (
-                <MyAppsData key={app._id} app={app}></MyAppsData>
-              ))}
-            </tbody>
-          </table>
+  <h3 className="text-3xl font-semibold mb-10 text-primary">My Apps</h3>
+
+  {hasApps ? (
+    <>
+      {/* Table */}
+      <div className="overflow-x-auto w-full ">
+        <table className="w-full  divide-y divide-gray-200">
+          <thead className="bg-gray-100 text-gray-700 text-left text-base">
+            <tr>
+              <th className="px-4 py-4">ID</th>
+              <th className="px-4 py-4">Name</th>
+              <th className="px-4 py-4 text-center">Upvotes</th>
+              <th className="px-4 py-4 text-center">Status</th>
+              <th className="px-4 py-4 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {apps.map((app) => (
+              <MyAppsData key={app._id} app={app} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Total & Pagination */}
+      <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <p className="text-lg text-gray-600">
+          Total Apps: <span className="font-semibold">{total}</span>
+        </p>
+
+        {/* Pagination Controls */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-1 rounded-md flex items-center gap-1 text-white ${
+              currentPage === 1
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-primary hover:bg-primary/90'
+            }`}
+          >
+            <FaLessThan /> Previous
+          </button>
+
+          {[...Array(totalPages)].map((_, index) => {
+            const pageNum = index + 1;
+            return (
+              <button
+                key={pageNum}
+                onClick={() => setCurrentPage(pageNum)}
+                className={`px-3 py-1 rounded-md border ${
+                  currentPage === pageNum
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                }`}
+              >
+                {pageNum}
+              </button>
+            );
+          })}
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-1 rounded-md flex items-center gap-1 text-white ${
+              currentPage === totalPages
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-primary hover:bg-primary/90'
+            }`}
+          >
+            Next <FaGreaterThan />
+          </button>
         </div>
-        
-        {/* Total & Pagination */}
-          <div className="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <p className="text-lg text-gray-600">
-              Total Apps: <span className="font-semibold">{total}</span>
-            </p>
-            {/* Pagination Buttons */}
-            {/* Pagination with Prev/Next */}
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="px-4 py-1 bg-primary rounded-md flex items-center gap-2"
-                  >
-                    <FaLessThan className='' />
-                    Previous
-                  </button>
-
-                  {[...Array(totalPages)].map((_, index) => {
-                    const pageNum = index + 1;
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`btn btn-sm ${currentPage === pageNum ? 'btn-primary' : 'btn-outline'}`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-
-                  <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-1 bg-primary rounded-md flex items-center gap-2"
-                  >
-                    Next
-                     <FaGreaterThan />
-                  </button>
-                </div>
-
-          </div>
-        </>
-        
-      ) : (
-        <div className="text-center mt-12">
-          <p className="text-lg text-gray-500">
-            🚫 You haven't added any Apps yet.
-          </p>
-          <p className="text-md text-gray-400 mt-1">
-            {" "}
-            <Link to="/dashboard/add-apps">
-              <span className="font-bold text-2xl">
-                Add Apps
-              </span>
-            </Link>{" "}
-            <br />
-            page to get started.
-          </p>
-        </div>
-      )}
+      </div>
+    </>
+  ) : (
+    <div className="text-center mt-12">
+      <p className="text-lg text-gray-500">🚫 You haven't added any Apps yet.</p>
+      <p className="text-md text-gray-400 mt-1">
+        <Link to="/dashboard/add-apps">
+          <span className="font-bold text-2xl text-primary hover:underline">
+            Add Apps
+          </span>
+        </Link>
+        <br />
+        page to get started.
+      </p>
     </div>
+  )}
+</div>
+
     );
 };
 

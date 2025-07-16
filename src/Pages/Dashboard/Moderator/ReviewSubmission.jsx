@@ -6,6 +6,7 @@ import { FaGreaterThan, FaLessThan, FaTrashAlt } from 'react-icons/fa';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { Link, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
+import toast from 'react-hot-toast';
 
 
 const ReviewSubmission = () => {
@@ -37,8 +38,12 @@ const ReviewSubmission = () => {
        return res.data;
      },
      onSuccess: () => {
-       queryClient.invalidateQueries(['apps']);
-     }
+    queryClient.invalidateQueries(['apps']);
+    toast.success('App marked as featured!');
+  },
+  onError: (error) => {
+    toast.error(`Failed to mark as featured: ${error.message}`);
+  },
    });
    
    // Mutation: Update Status (accept/reject)
@@ -47,9 +52,13 @@ const ReviewSubmission = () => {
        const res = await axiosSecure.patch(`/apps/status/${id}`, { status });
        return res.data;
      },
-     onSuccess: () => {
-       queryClient.invalidateQueries(['apps']);
-     }
+     onSuccess: (data, variables) => {
+    queryClient.invalidateQueries(['apps']);
+    toast.success(`App ${variables.status === 'accepted' ? 'accepted' : 'rejected'} successfully!`);
+  },
+  onError: (error) => {
+    toast.error(`Failed to update status: ${error.message}`);
+  },
    });
 
 

@@ -2,14 +2,19 @@ import React from 'react';
 import Container from '../Container';
 import logo from '../../../assets/logo.png';
 import Logo from '../Logo';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import useAuth from '../../../Hooks/useAuth';
 
 const Footer = () => {
     const {theme}=useAuth();
+    const navLinkStyles = ({ isActive }) =>
+    `${
+      isActive ? "text-primary" : theme === "dark" ? "text-white" : "text-black"
+    } 
+    text-lg font-medium transition hover:text-secondary`;
     return (
-        <footer className={`${theme==="dark" ? 'bg-[#0a0e19]' :'bg-[#faf6f5]'}`}>
+        <footer className={`${theme==="dark" ? 'bg-[#0a0e19]' :'bg-[#f2f4f7]'}`}>
             <Container>
 
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-20">
@@ -23,20 +28,18 @@ const Footer = () => {
                 </div>
 
                 {/* Links */}
-                <div className='flex justify-center items-center'>
+                <div className='md:flex   justify-center items-center'>
                   <div>
                     <h4 className="text-2xl font-semibold">Explore</h4>
                   <ul className="space-y-2 mt-6">
-                    <li><Link to="/" >Home</Link></li>
-                    <li><Link to="/" >Home</Link></li>
-                    <li><Link to="/" >Home</Link></li>
-                    <li><Link to="/" >Home</Link></li>
+                    <li><NavLink to="/" className={navLinkStyles}>Home</NavLink></li>
+                    <li><NavLink to="/apps" className={navLinkStyles}>Apps</NavLink></li>
                     
                   </ul>
                   </div>
                 </div>
 
-                <div className='flex justify-center items-center'>
+                <div className='md:flex justify-center items-center'>
                  <div>
                     <h2 className="text-xl font-semibold">
                    Contact Us

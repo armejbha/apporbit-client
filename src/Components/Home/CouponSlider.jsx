@@ -54,9 +54,9 @@ const CouponSlider = () => {
               >
                 <div className="md:w-1/2 h-full">
                   <img
-                    src="https://cdn-icons-png.flaticon.com/512/706/706164.png"
+                    src="https://i.postimg.cc/s21s0pgK/16284-removebg-preview.png"
                     alt="Coupon"
-                    className="w-full h-[200px] md:h-[550px] object-cover"
+                    className="w-full h-[200px] md:h-[350px] object-cover"
                   />
                 </div>
                 <div className="p-6 md:p-10 md:w-1/2 text-center md:text-left">

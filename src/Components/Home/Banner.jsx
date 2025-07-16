@@ -26,27 +26,27 @@ const Banner = () => {
           {/* product 1 */}
           <div className="w-40 h-60 md:w-48 md:h-72 bg-gray-100 rounded-xl shadow-lg transform   z-10">
             <img
-              src="https://via.placeholder.com/200x300?text=Product+1"
+              src="https://i.postimg.cc/FRnFHYdD/meetme.png"
               alt="Tech Product 1"
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-full object-contain object-center rounded-xl"
             />
           </div>
 
           {/* product 2 */}
           <div className="w-40 h-60 md:w-48 md:h-72 bg-gray-100 rounded-xl shadow-lg transform  absolute right-8 top-6 rotate-12 z-0">
             <img
-              src="https://via.placeholder.com/200x300?text=Product+2"
+              src="https://i.postimg.cc/L6jqNVZS/video-editing-app.png"
               alt="Tech Product 2"
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-full object-contain object-center rounded-xl"
             />
           </div>
 
           {/* product 3 */}
           <div className="w-40 h-60 md:w-48 md:h-72 bg-gray-100 rounded-xl shadow-lg transform  absolute top-6 left-8 -rotate-12 z-0">
             <img
-              src="https://via.placeholder.com/200x300?text=Product+2"
+              src="https://i.postimg.cc/mkBxRRV8/app-store.png"
               alt="Tech Product 3"
-              className="w-full h-full object-cover rounded-xl"
+              className="w-full h-full object-contain object-center rounded-xl"
             />
           </div>
         </div>

@@ -75,7 +75,7 @@ const HorizontalCard = ({ app }) => {
   };
 
   return (
-    <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
+    <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'bg-[#faf5f6] hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl flex items-center justify-between gap-4 p-4 transition-all duration-300`}>
       {/* Left Section */}
       <div className="flex gap-4 w-full">
         <img

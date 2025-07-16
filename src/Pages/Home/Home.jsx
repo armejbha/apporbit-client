@@ -3,6 +3,7 @@ import Banner from '../../Components/Home/Banner';
 import Featured from '../../Components/Home/Featured';
 import Trending from '../../Components/Home/Trending';
 import Container from '../../Components/Shared/Container';
+import CouponSlider from '../../Components/Home/CouponSlider';
 
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
             <Banner/>
             <Featured/>
             <Trending/>
+            <CouponSlider/>
         </Container>
     );
 };

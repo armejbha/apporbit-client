@@ -74,7 +74,10 @@ const UpdateUserInfo = ({ isOpen, close }) => {
       toast.error('Failed to update profile');
     }
   };
+
+
   if(loading) return <Loading height={true}/>
+  
   return (
     <Dialog open={isOpen} as="div" className="relative z-10" onClose={close}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />

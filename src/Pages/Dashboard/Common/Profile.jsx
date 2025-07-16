@@ -8,7 +8,10 @@ import { useState } from 'react';
 const Profile = () => {
   const { user,loading ,refreshUser} = useAuth();
   const [role, isRoleLoading] = useRole();
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [clientSecret, setClientSecret] = useState(null);
+
 
   const close=async()=>{
     setIsOpen(false);
@@ -50,12 +53,24 @@ const Profile = () => {
           </p>
 
           {/* Login Info */}
-          <div className='mt-4 space-y-2 text-gray-700 text-sm md:text-base text-center'>
+          <div className='mt-4 space-y-2 text-gray-700 text-sm md:text-base text-center '>
             <button 
             onClick={()=>setIsOpen(true)}
             className='bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg font-medium hover:cursor-pointer'>
               Update Profile
             </button>
+            {!role || role === "user" ? (
+              <button
+                
+                className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg font-medium ml-5"
+              >
+                Subscribe: $5.00
+              </button>
+            ) : (
+              <span className=" font-semibold text-sm mt-2 md:mt-0 px-6 py-2 bg-blue-400 ml-5 rounded-md text-white">
+                   Verified
+              </span>
+            )}
           </div>
 
           {/* User Info */}

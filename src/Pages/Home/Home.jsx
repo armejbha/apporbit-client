@@ -18,8 +18,7 @@ const Home = () => {
             <Trending/>
             <CouponSlider/>
             <BlogSection/>
-            <News
-            />
+            <News/>
         </Container>
     );
 };

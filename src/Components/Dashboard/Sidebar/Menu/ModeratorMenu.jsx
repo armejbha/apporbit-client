@@ -10,11 +10,6 @@ const ModeratorMenu = () => {
         address='/dashboard/review-submission'
       />
       <MenuItem icon={MdReport} label='Reported Products' address='/dashboard/reported-products' />
-      <MenuItem
-        icon={MdOutlineFeaturedPlayList}
-        label='Feature Manage'
-        address='/dashboard/feature-manage'
-      />
     </>
   )
 }

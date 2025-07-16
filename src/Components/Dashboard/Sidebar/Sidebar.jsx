@@ -25,7 +25,6 @@ const Sidebar = ({toggle,theme,logo}) => {
             <div className='flex flex-col justify-between h-[85vh]'>
                 {/* part 1 */}
                 <div>
-                <MenuItem icon={GrOverview} label='Overview' address='/dashboard' />
                 {role === "admin" && <AdminMenu/>}
                 {role === "moderator" && <ModeratorMenu/>}
                 {role === "user" && <UserMenu/>}

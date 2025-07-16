@@ -2,11 +2,12 @@ import React from 'react';
 import Loading from '../Shared/Loading/Loading';
 import useApp from '../../Hooks/useApps';
 import VerticalCard from '../Shared/Card/VerticalCard';
+import { Link } from 'react-router';
 
 const Trending = () => {
      const {data:apps=[], isLoading, isError}=useApp();
 
-    const trendingApps = [...apps]
+    const trendingApps = (apps.data || [])
      .sort((a, b) => b.upvotes - a.upvotes)
      .slice(0, 6); 
     if(isLoading) return <Loading />
@@ -20,6 +21,8 @@ const Trending = () => {
                 }
 
             </div>
+        <Link to="/apps" className='block px-10 text-lg font-bold py-3  rounded-md bg-primary text-white w-fit mx-auto mt-10'>All Apps</Link>
+
         </div>
     );
 };

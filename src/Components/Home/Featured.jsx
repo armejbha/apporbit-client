@@ -1,17 +1,23 @@
 
+import { Link } from 'react-router';
 import useApp from '../../Hooks/useApps';
 import HorizontalCard from '../Shared/Card/HorizontalCard';
 import Loading from '../Shared/Loading/Loading';
 
 const Featured = () => {
-    const {data:apps=[], isLoading, isError}=useApp();
-    console.log(apps);
-    const featuredApps = [...apps]
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  .slice(0, 4)
+    const {data:apps=[], isLoading}=useApp();
+    console.log(apps.data);
+
+    // if(isLoading) return <Loading />
+
+     // ✅ Safe default to empty array if apps.data is undefined
+    const featuredApps = (apps.data || [])
+    .filter(app => app.isFeatured)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 4);
+
   console.log(featuredApps);
-    if(isLoading) return <Loading />
-    if(isError) return <p>Failed to Load Data</p>
+    
     return (
         <div className='my-20'>
             <h2 className='text-center text-3xl font-bold text-primary'>Featured Apps</h2>
@@ -21,6 +27,7 @@ const Featured = () => {
                 }
 
             </div>
+            <Link to="/apps" className='block px-10 py-3 rounded-md bg-primary text-white w-fit mx-auto mt-10 text-lg font-bold'>All Apps</Link>
         </div>
     );
 };

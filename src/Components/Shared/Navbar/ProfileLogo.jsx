@@ -11,6 +11,7 @@ import { FcAbout } from "react-icons/fc";
 import useAuth from "../../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { BsPersonCircle } from "react-icons/bs";
+import { FaAppStore } from "react-icons/fa";
 
 const ProfileLogo = () => {
   const { user, logOut} = useAuth();
@@ -51,6 +52,10 @@ const ProfileLogo = () => {
             <NavLink to="/" className={navLinkStyles}>
               <IoMdHome />
               Home
+            </NavLink>
+            <NavLink to="/apps" className={navLinkStyles}>
+              <FaAppStore />
+              Apps
             </NavLink>
           </li>    
         </ul>

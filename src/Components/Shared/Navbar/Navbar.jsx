@@ -55,6 +55,9 @@ const Navbar = () => {
             <NavLink to="/" className={navLinkStyles}>
               Home
             </NavLink>
+            <NavLink to="/apps" className={navLinkStyles}>
+              Apps
+            </NavLink>
           </div>
 
           {/* Right Section */}
@@ -116,6 +119,9 @@ const Navbar = () => {
                 <li>
                   <NavLink to="/" className={mobileNavLinkStyles}>
                     Home
+                  </NavLink>
+                  <NavLink to="/apps" className={mobileNavLinkStyles}>
+                    Apps
                   </NavLink>
                 </li>
                 <li>

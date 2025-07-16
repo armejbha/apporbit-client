@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Overview = () => {
+const Statistics = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const Overview = () => {
     );
 };
 
-export default Overview;
+export default Statistics;

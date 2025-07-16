@@ -21,7 +21,7 @@ const ReviewSubmission = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['apps', currentPage],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/apps?page=${currentPage}&limit=${limit}`);
+      const res = await axiosSecure.get(`/apps/paginated?page=${currentPage}&limit=${limit}`);
       return res.data;
     },
     keepPreviousData: true,

@@ -25,7 +25,7 @@ const VerticalCard = ({ app }) => {
   const queryClient = useQueryClient();
 
   // Local state for votes (optional, you can also rely on refetching after mutation)
-  const [votes, setVotes] = useState(app?.upvotes||0);
+
 
   const isOwner = user?.email === app?.owner?.email;
   const hasUserUpvoted = user ? app.voters?.includes(user.email) : false;
@@ -34,7 +34,7 @@ const VerticalCard = ({ app }) => {
   const upvoteMutation = useMutation({
   mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user.email }),
   onSuccess: () => {
-    setVotes(prev => prev + 1);
+
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
@@ -46,7 +46,7 @@ const VerticalCard = ({ app }) => {
   const undoUpvoteMutation = useMutation({
   mutationFn: () => axiosSecure.patch(`/apps/undo-upvote/${app._id}`, { user: user.email }),
   onSuccess: () => {
-    setVotes(prev => prev - 1);
+
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
@@ -103,7 +103,7 @@ const VerticalCard = ({ app }) => {
         >
           <TbTriangleInverted />
         </button>
-        <p className="font-bold">{votes}</p>
+        <p className="font-bold">{app.upvotes}</p>
         
         <button
           onClick={handleUpvote}

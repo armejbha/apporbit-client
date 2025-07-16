@@ -6,11 +6,9 @@ import Home from "../Pages/Home/Home";
 import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
 import DashboardLayouts from "../Layouts/DashboardLayouts";
-import Overview from "../Pages/Dashboard/Common/Overview";
 import BecomeModerator from "../Pages/Dashboard/User/BecomeModerator";
 import ReviewSubmission from "../Pages/Dashboard/Moderator/ReviewSubmission";
 import ReportedProducts from "../Pages/Dashboard/Moderator/ReportedProducts";
-import FeaturedManager from "../Pages/Dashboard/Moderator/FeatureManage";
 import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
 import PrivateRoutes from "./PrivateRoutes";
 import ModeratorRoute from "./ModeratorRoute";
@@ -21,6 +19,9 @@ import AddApps from "../Pages/Dashboard/User/AddApps.jsx";
 import AppsDetails from "../Pages/AppsDetails/AppsDetails.jsx";
 import ProductDescription from "../Pages/AppsDetails/ProductDescription.jsx";
 import ProductReviews from "../Pages/AppsDetails/ProductReviews.jsx";
+import Statistics from "../Pages/Dashboard/Common/Statistics.jsx";
+import Apps from "../Pages/Apps/Apps.jsx";
+import ManageCoupons from "../Pages/Dashboard/Admin/ManageCoupons.jsx";
 
 
 
@@ -33,6 +34,10 @@ export const router=createBrowserRouter([
             {
                 index:true,
                 element:<Home/>
+            },
+            {
+                path:"/apps",
+                element:<Apps/>
             },
             {
                 path:"/appsDetails/:id",
@@ -78,7 +83,7 @@ export const router=createBrowserRouter([
         children:[
            {
             index:true,
-            element:<Overview/>
+            element:<Statistics/>
            },
            {
             path:'/dashboard/my-apps',
@@ -116,18 +121,18 @@ export const router=createBrowserRouter([
             </PrivateRoutes>
            },
            {
-            path:"/dashboard/feature-manage",
-            element:<PrivateRoutes>
-                <ModeratorRoute>
-                    <FeaturedManager/>
-                </ModeratorRoute>
-            </PrivateRoutes>
-           },
-           {
             path:"/dashboard/manage-users",
             element:<PrivateRoutes>
                 <AdminRoute>
                     <ManageUser/>
+                </AdminRoute>
+            </PrivateRoutes>
+           },
+           {
+            path:"/dashboard/manage-coupons",
+            element:<PrivateRoutes>
+                <AdminRoute>
+                     <ManageCoupons/>
                 </AdminRoute>
             </PrivateRoutes>
            },

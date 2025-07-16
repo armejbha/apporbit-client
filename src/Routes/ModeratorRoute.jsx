@@ -6,7 +6,7 @@ import { Navigate } from 'react-router';
 const ModeratorRoute = ({children}) => {
     const [role, isRoleLoading] = useRole()
   if (isRoleLoading) return <Loading height={true} />
-  if (role === 'seller') return children
+  if (role === 'moderator') return children
   return <Navigate to='/' replace='true' />
 }
 

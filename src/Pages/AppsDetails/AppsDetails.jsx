@@ -13,6 +13,7 @@ import PostAppsReview from "./PostAppsReview";
 
 const AppsDetails = () => {
   const {id } = useParams();
+  console.log(id);
   const { user,theme } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
@@ -122,7 +123,8 @@ const reportMutation = useMutation({
   mutationFn: async () => {
     const res = await axiosSecure.post("/reports", {
       appId: app._id,
-      userEmail: user?.email
+      userEmail: user?.email,
+      productName:app.name
     });
     return res.data;
   },

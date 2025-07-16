@@ -63,9 +63,9 @@ const { mutate: deleteApp } = useMutation({
     <td className="font-bold px-4 py-3">{app._id}</td>
     <td className="px-4 py-3">{app.name}</td>
     <td className="text-center px-4 py-3">{app.upvotes}</td>
-    <td className="px-4 py-3  text-center">
+    <td className="px-4 py-3 text-center">
       <button 
-      className={`px-4 py-1 font-medium text-sm rounded-full
+      className={`px-4 py-2 font-medium text-sm rounded-full
   ${
     app.status === 'pending'
       ? 'bg-yellow-100 text-yellow-800'

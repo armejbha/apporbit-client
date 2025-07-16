@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 
 
-const Newsletter = () => {
+const News = () => {
     const {theme}=useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,4 +50,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter;
+export default News;

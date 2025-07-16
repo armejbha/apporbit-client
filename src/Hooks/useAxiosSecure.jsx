@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import useAuth from './useAuth';
 
 export const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://apporbit-server-ruddy.vercel.app",
   withCredentials: true,
 });
 

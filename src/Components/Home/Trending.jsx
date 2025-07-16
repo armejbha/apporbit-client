@@ -11,7 +11,6 @@ const Trending = () => {
      .sort((a, b) => b.upvotes - a.upvotes)
      .slice(0, 6); 
     if(isLoading) return <Loading />
-    if(isError) return <p>Failed to Load Data</p>
     return (
         <div className='my-20'>
             <h2 className='text-center text-3xl font-bold text-primary'>Trending Apps</h2>

@@ -19,14 +19,14 @@ const DashboardLayouts = () => {
         {/* Main content */}
         <div className={`drawer-content flex flex-col transition-all duration-300 ease-in-out ${toggle ? 'lg:ml-0 lg:mx-0' :'lg:mx-10'}`}>
           {/* Top Navbar */}
-          <div className={`w-full navbar  px-4 shadow sticky top-0 md:rounded-bl-lg md:rounded-br-lg ${theme ==="dark" ? 'bg-[#0a0e19]':'bg-white'} `}>
+          <div className={`w-full navbar  px-4 shadow sticky top-0 z-50 md:rounded-bl-lg md:rounded-br-lg ${theme ==="dark" ? 'bg-[#0a0e19]':'bg-white'} `}>
             {/* Hamburger for mobile */}
             <label htmlFor="dashboard-drawer" className="btn btn-ghost lg:hidden p-0 mr-2">
               <FiMenu size={24} />
             </label>
 
             {/* Page title */}  
-            <div className="flex-1 flex items-center z-50">
+            <div className="flex-1 flex items-center">
               <button onClick={() => setToggle(!toggle)} className="btn btn-ghost hidden md:flex p-0 mr-2">
                 <FiMenu size={24} className={``}/>
               </button>

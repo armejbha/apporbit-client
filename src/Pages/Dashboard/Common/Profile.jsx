@@ -10,42 +10,47 @@ import useAuth from "../../../Hooks/useAuth";
 import useRole from "../../../Hooks/useRole";
 import UpdateUserInfo from "../../../Components/Shared/Modal/UpdateUserInfo";
 import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import PaymentModal from "../../../Components/Shared/Modal/PaymentModal";
-import { useQuery } from "@tanstack/react-query";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
+
+
+const stripePromise = loadStripe("pk_test_51RlzrlQ2kzpSmA2Bkr7TAVQSHimqNbAGDfbB2PtQVH0TIz3odDqAODRF4tXcCH3YGoo7ffMfHPnQQjPNUpsceTDJ00eNyByVuY");
 
 
 const Profile = () => {
   const { user, loading, refreshUser } = useAuth();
-  const [role, isRoleLoading] = useRole();
   const [isOpen, setIsOpen] = useState(false);
-  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
-  const axiosSecure=useAxiosSecure();
-  const price=5;
+  const [role,isRoleLoading,loginUser]=useRole();
+  const [isPaymentOpen,setIsPaymentOpen]=useState(false);
+
 
   const closeUpdateModal = async () => {
     setIsOpen(false);
     await refreshUser();
   };
+  const closePaymentModal=async()=>{
+    setIsPaymentOpen(false);
+    await refreshUser();
+  }
   const formatDate = dateString => {
     const date = new Date(dateString);
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     return date.toLocaleDateString('en-GB', options);
   };
 
-  
-  
+ const isVerified = role !== "user" || loginUser?.isSubscribe === true;
 
-  // if (loading || isRoleLoading|| isLoading) return <Loading height={true} />;
 
+
+
+
+  if (loading || isRoleLoading  ) return <Loading height={true} />;
   return (
-    <div className="flex justify-center items-center py-10 md:px-4 min-h-screen">
+    <div className="flex justify-center items-center py-10 md:px-4 min-h-screen z-10">
       <div className="bg-white shadow-xl rounded-2xl w-full max-w-3xl">
         {/* Cover Photo */}
         <img
@@ -53,15 +58,24 @@ const Profile = () => {
           src="https://i.ibb.co/k297HRS5/glasses-lie-laptop-reflecting-light-from-screen-dark.jpg"
           className="w-full h-52 object-cover rounded-t-2xl"
         />
-
+       
         {/* Profile Content */}
-        <div className="flex flex-col items-center -mt-20 px-6 pb-6">
+        <div className="flex flex-col items-center -mt-20 px-6 pb-6 relative">
           {/* Avatar */}
-          <img
-            alt="profile"
-            src={user.photoURL}
-            className="rounded-full h-32 w-32 border-4 border-white shadow-md"
-          />
+          <div className="relative w-32 h-32">
+              <img
+                alt="profile"
+                src={user.photoURL}
+                className="rounded-full w-full h-full object-cover border-4 border-white shadow-md"
+              />
+              {isVerified && (
+                <img
+                  src="https://i.postimg.cc/Y2mrVR0h/verified.png"
+                  alt="Verified Badge"
+                  className="absolute bottom-2 right-0  bg-white rounded-full w-8 h-8 border border-gray-300 shadow"
+                />
+              )}
+          </div>
 
           {/* Role */}
           <p className="mt-3 py-1 px-6 text-white bg-primary rounded-full text-sm font-semibold">
@@ -70,7 +84,7 @@ const Profile = () => {
           </p>
 
           {/* Buttons */}
-          <div className="mt-4 flex flex-col md:flex-row items-center gap-3 text-gray-700 text-sm md:text-base text-center">
+          <div className="mt-4 flex md:flex-row items-center gap-3 text-gray-700 text-sm md:text-base text-center">
             <button
               onClick={() => setIsOpen(true)}
               className="bg-primary hover:bg-secondary text-white px-5 py-2 rounded-lg font-medium"
@@ -78,17 +92,13 @@ const Profile = () => {
               Update Profile
             </button>
 
-            {!role || role === "user" ? (
+            {!isVerified && (
               <button
                  onClick={()=>setIsPaymentOpen(true)}
                 className="bg-secondary hover:bg-primary text-white px-5 py-2 rounded-lg font-medium"
               >
-                Subscribe: $5.00
+                Subscribe: $ 99.00
               </button>
-            ) : (
-              <span className="text-green-600 font-semibold text-sm mt-2 md:mt-0 px-6 py-2 bg-blue-400 rounded-md text-white">
-                Verified
-              </span>
             )}
           </div>
 
@@ -139,19 +149,11 @@ const Profile = () => {
 
       {/* Update User Modal */}
       <UpdateUserInfo isOpen={isOpen} close={closeUpdateModal} />
+      <Elements stripe={stripePromise}>
+      <PaymentModal  user={user} isPaymentOpen={isPaymentOpen} closePaymentModal={closePaymentModal}/>
 
-      {/* Payment Modal */}
-      {isPaymentOpen && (
-        <Elements stripe={stripePromise} >
-          <PaymentModal
-              price={price}
-              close={() => {
-              setIsPaymentOpen(false);
-              refreshUser(); // Refresh user role after payment
-            }}
-          />
-        </Elements>
-      )}
+      </Elements>
+      
     </div>
   );
 };

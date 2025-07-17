@@ -6,7 +6,6 @@ import Loading from '../Shared/Loading/Loading';
 
 const Featured = () => {
     const {data:apps=[], isLoading}=useApp();
-    console.log(apps.data);
 
     const featuredApps = (apps.data || [])
     .filter(app => app.isFeatured)

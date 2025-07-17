@@ -137,7 +137,7 @@ const LogIn = () => {
         <div className="mt-4">
           <div
             onClick={handleGoogleSignIn}
-            className="py-2 w-full flex items-center justify-center gap-2 border border-gray-300 hover:bg-gray-100 rounded-lg text-lg font-semibold cursor-pointer"
+            className={`py-2 w-full flex items-center justify-center gap-2 border border-gray-300 ${theme==="dark" ?'hover:bg-gray-800' :'hover:bg-gray-100'} rounded-lg text-lg font-semibold cursor-pointer `}
           >
             <FcGoogle className="text-xl" /> Continue with Google
           </div>

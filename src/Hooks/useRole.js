@@ -15,8 +15,8 @@ const useRole = () => {
             return data
         },
     })
-
-    return [role?.role, isRoleLoading]
+    const loginUser = role?.result
+    return [role?.role, isRoleLoading, loginUser]
 
 };
 

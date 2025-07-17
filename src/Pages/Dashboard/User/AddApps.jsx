@@ -2,7 +2,7 @@
 import axios from 'axios'
 import useAuth from '../../../Hooks/useAuth'
 import { useState } from 'react'
-import { imageUpload } from '../../../Api/Utilities'
+import { imageUpload, parseDescriptionText } from '../../../Api/Utilities'
 import AddAppsForm from '../../../Components/Dashboard/Form/AddAppsForm'
 import toast from 'react-hot-toast'
 import { axiosSecure } from '../../../Hooks/useAxiosSecure'
@@ -57,7 +57,8 @@ const AddPlant = () => {
       }
       
     } catch (err) {
-      console.log(err)
+      console.log(err);
+      toast.error('Upgrade to Membership to add more than 1 app.');
     } finally {
       setIsUploading(false)
     }

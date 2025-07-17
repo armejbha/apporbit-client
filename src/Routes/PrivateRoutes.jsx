@@ -10,7 +10,6 @@ const PrivateRoutes = ({ children }) => {
   if (loading) {
     return <Loading height={true}/>;
   }
-
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserOverview = () => {
+const ModeratorStatistics = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const UserOverview = () => {
     );
 };
 
-export default UserOverview;
+export default ModeratorStatistics;

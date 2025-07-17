@@ -8,16 +8,12 @@ const Featured = () => {
     const {data:apps=[], isLoading}=useApp();
     console.log(apps.data);
 
-    // if(isLoading) return <Loading />
-
-     // ✅ Safe default to empty array if apps.data is undefined
     const featuredApps = (apps.data || [])
     .filter(app => app.isFeatured)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 4);
 
-  console.log(featuredApps);
-    
+    if(isLoading) return <Loading height={true}/>
     return (
         <div className='my-20'>
             <h2 className='text-center text-3xl font-bold text-primary'>Featured Apps</h2>

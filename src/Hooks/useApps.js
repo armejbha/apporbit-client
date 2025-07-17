@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const axiosPublic = axios.create({
-  baseURL: "https://apporbit-server-ruddy.vercel.app",
+  baseURL: "http://localhost:3000",
 });
 
 const useApp = () => {

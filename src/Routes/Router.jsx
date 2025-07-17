@@ -83,7 +83,10 @@ export const router=createBrowserRouter([
         children:[
            {
             index:true,
-            element:<Statistics/>
+            element:
+            <PrivateRoutes>
+                <Statistics/>
+            </PrivateRoutes>
            },
            {
             path:'/dashboard/my-apps',

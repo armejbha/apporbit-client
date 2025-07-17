@@ -14,6 +14,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import PaymentModal from "../../../Components/Shared/Modal/PaymentModal";
+import { useQuery } from "@tanstack/react-query";
 
 
 
@@ -25,6 +26,7 @@ const Profile = () => {
   const [role, isRoleLoading] = useRole();
   const [isOpen, setIsOpen] = useState(false);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const axiosSecure=useAxiosSecure();
   const price=5;
 
   const closeUpdateModal = async () => {
@@ -38,8 +40,9 @@ const Profile = () => {
   };
 
   
+  
 
-  if (loading || isRoleLoading) return <Loading height={true} />;
+  // if (loading || isRoleLoading|| isLoading) return <Loading height={true} />;
 
   return (
     <div className="flex justify-center items-center py-10 md:px-4 min-h-screen">

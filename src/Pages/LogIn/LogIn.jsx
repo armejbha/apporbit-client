@@ -14,9 +14,7 @@ const LogIn = () => {
      const [creating, setCreating]=useState(false);
     const location=useLocation();
     const navigate=useNavigate();
-    if(loading){
-        return <Loading height={true}/>
-    }
+    
     const handleLogin=async(e)=>{
         e.preventDefault();
         const form=e.target;
@@ -38,6 +36,7 @@ const LogIn = () => {
             if(res.modifiedCount){
                 toast.success('Login Successful')
                 form.reset();
+                console.log("Redirecting to:", location?.state?.from?.pathname);
                 navigate(location?.state?.from?.pathname || "/");
             }
           
@@ -64,6 +63,7 @@ const LogIn = () => {
       const res=await saveUserInDb(userData)
       if(res.insertedId || res.modifiedCount){
       toast.success('Signup Successful')
+      console.log("Redirecting to:", location?.state?.from?.pathname);
       navigate(location?.state?.from?.pathname || "/");
       }
     
@@ -72,6 +72,9 @@ const LogIn = () => {
       toast.error(err?.message)
     }
   }
+  if(loading){
+        return <Loading height={true}/>
+    }
     return (
          <Container>
             <div className={`mx-auto card w-full max-w-lg shrink-0 shadow border border-gray-200 my-10 py-5 ${theme==="dark" ? 'bg-[#0a0e19]' :''}`}>

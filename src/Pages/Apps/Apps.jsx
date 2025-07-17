@@ -50,7 +50,11 @@ const Apps = () => {
     localStorage.setItem("viewType", type);
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return (
+    <div className="min-h-[400px] flex items-center justify-center">
+        <Loading />
+     </div>
+  )
 
   return (
     <div className="max-w-7xl mx-auto my-20 px-4 md:px-0">

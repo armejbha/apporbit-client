@@ -106,7 +106,7 @@ const UpdateAppsData = ({ isOpen, close, app }) => {
                   type="text"
                   name={field}
                   id={field}
-                  value={formData[field]}
+                  defaultValue={formData[field]}
                   onChange={handleInputChange}
                   readOnly={['ownerName', 'ownerEmail', 'ownerPhoto'].includes(field)}
                   required={['name', 'title', 'website'].includes(field)}

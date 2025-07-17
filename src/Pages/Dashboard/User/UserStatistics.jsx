@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminOverview = () => {
+const UserStatistics = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const AdminOverview = () => {
     );
 };
 
-export default AdminOverview;
+export default UserStatistics;

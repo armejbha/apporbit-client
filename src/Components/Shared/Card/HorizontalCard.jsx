@@ -22,8 +22,6 @@ const HorizontalCard = ({ app }) => {
   const { user, theme } = useAuth();
   const queryClient = useQueryClient();
 
-  // Local state for votes (optional, you can also rely on refetching after mutation)
-
 
   const isOwner = user?.email === app.owner?.email;
   const hasUserUpvoted = user ? app.voters?.includes(user?.email) : false;
@@ -106,7 +104,13 @@ const HorizontalCard = ({ app }) => {
       <div className="flex flex-col items-center gap-2">
         <button
           onClick={handleUpvote}
-          disabled={!user || isOwner || hasUserUpvoted || upvoteMutation.isLoading}
+          disabled={
+  !user ||
+  isOwner ||
+  hasUserUpvoted ||
+  upvoteMutation.isLoading ||
+  user?.role !== "user"
+}
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
           <LuTriangle className={`${theme === "dark" ? 'text-white hover:text-black' : ''} transition-all duration-100`} />
@@ -116,7 +120,13 @@ const HorizontalCard = ({ app }) => {
 
         <button
           onClick={handleDownvote}
-          disabled={!user || isOwner || !hasUserUpvoted || undoUpvoteMutation.isLoading}
+          disabled={
+  !user ||
+  isOwner ||
+  hasUserUpvoted ||
+  upvoteMutation.isLoading ||
+  user?.role !== "user"
+}
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
           <TbTriangleInverted />

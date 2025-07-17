@@ -5,6 +5,7 @@ import { TbTriangleInverted } from "react-icons/tb";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { Link, useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useRole from "../../../Hooks/useRole";
 
 
 
@@ -23,22 +24,21 @@ const VerticalCard = ({ app }) => {
   const navigate = useNavigate();
   const { user, theme } = useAuth();
   const queryClient = useQueryClient();
+  const [role,isRoleLoading]=useRole();
 
-  // Local state for votes (optional, you can also rely on refetching after mutation)
 
-
-  const isOwner = user?.email === app?.owner?.email;
-  const hasUserUpvoted = user ? app.voters?.includes(user.email) : false;
+  const isOwner = user?.email === app.owner?.email;
+  const hasUserUpvoted = user ? app.voters?.includes(user?.email) : false;
 
   // Upvote mutation
   const upvoteMutation = useMutation({
-  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user.email }),
+  mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user?.email }),
   onSuccess: () => {
-
+   
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
-    alert(error.response?.data?.message || 'Upvote failed');
+    toast(error.response?.data?.message || 'Upvote failed');
   },
 });
 
@@ -50,7 +50,7 @@ const VerticalCard = ({ app }) => {
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
-    alert(error.response?.data?.message || 'Undo upvote failed');
+    toast(error.response?.data?.message || 'Undo upvote failed');
   },
 });
 
@@ -76,6 +76,7 @@ const VerticalCard = ({ app }) => {
     undoUpvoteMutation.mutate();
   };
 
+
  
   return (
     <div className={`group ${theme === "dark" ? 'bg-[#0a0e19] hover:shadow-xl' : 'bg-[#faf6f7] hover:bg-[#f2f4f7] hover:shadow-md'} rounded-xl p-4 flex flex-col items-center text-center transition-all duration-300`}>
@@ -98,8 +99,14 @@ const VerticalCard = ({ app }) => {
       <div className="flex  items-center gap-1 mt-4">
         <button
           onClick={handleDownvote}
-          disabled={!user}
-          className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 transition-all duration-100`}
+           disabled={
+            !user ||
+            isOwner ||
+            hasUserUpvoted ||
+            upvoteMutation.isLoading ||
+            user?.role !== "user"
+          }
+          className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed  transition-all duration-100`}
         >
           <TbTriangleInverted />
         </button>
@@ -107,8 +114,14 @@ const VerticalCard = ({ app }) => {
         
         <button
           onClick={handleUpvote}
-          disabled={!user}
-          className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 transition-all duration-100`}
+          disabled={
+            !user ||
+            isOwner ||
+            hasUserUpvoted ||
+            upvoteMutation.isLoading ||
+            user?.role !== "user"
+          }
+          className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
           <LuTriangle className={`${theme === "dark" ? 'text-white hover:text-black' : ''} transition-all duration-100`} />
         </button>

@@ -5,7 +5,7 @@ import AdminMenu from './Menu/AdminMenu';
 import MenuItem from './Menu/MenuItem';
 import { GrLogout, GrOverview } from 'react-icons/gr';
 import useAuth from '../../../Hooks/useAuth';
-import { FcSettings } from 'react-icons/fc';
+import { FcSettings, FcStatistics } from 'react-icons/fc';
 import useRole from '../../../Hooks/useRole';
 import ModeratorMenu from './Menu/ModeratorMenu';
 
@@ -25,6 +25,7 @@ const Sidebar = ({toggle,theme,logo}) => {
             <div className='flex flex-col justify-between h-[85vh]'>
                 {/* part 1 */}
                 <div>
+                <MenuItem icon={FcStatistics} label='Statistics' address='/dashboard' />
                 {role === "admin" && <AdminMenu/>}
                 {role === "moderator" && <ModeratorMenu/>}
                 {role === "user" && <UserMenu/>}

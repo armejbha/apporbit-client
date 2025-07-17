@@ -5,7 +5,7 @@ import axios from "axios"
 export const imageUpload = async imageData => {
     const imageFormData = new FormData();
     imageFormData.append('image', imageData);
-    const { data } = await axios.post('http://localhost:3000/upload', imageFormData, {
+    const { data } = await axios.post('https://apporbit-server-ruddy.vercel.app/upload', imageFormData, {
         headers: { 'Content-Type': 'multipart/form-data' },
     });
     console.log(data.secure_url);
@@ -16,7 +16,7 @@ export const imageUpload = async imageData => {
 
 export const saveUserInDb = async user => {
     const { data } = await axios.post(
-        'http://localhost:3000/user',
+        'https://apporbit-server-ruddy.vercel.app/user',
         user
     )
 

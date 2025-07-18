@@ -8,11 +8,15 @@ const Featured = () => {
     const {data:apps=[], isLoading}=useApp();
 
     const featuredApps = (apps.data || [])
-    .filter(app => app.isFeatured)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 4);
+  .filter(app => app.isFeatured && app.status === "accepted")
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .slice(0, 4);
 
-    if(isLoading) return <Loading height={true}/>
+    if (isLoading) return (
+    <div className="min-h-[400px] flex items-center justify-center">
+        <Loading />
+     </div>
+  )
     return (
         <div className='my-20'>
             <h2 className='text-center text-3xl font-bold text-primary'>Featured Apps</h2>

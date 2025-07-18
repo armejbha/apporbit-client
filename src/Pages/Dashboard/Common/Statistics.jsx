@@ -10,8 +10,6 @@ const Statistics = () => {
   if(isRoleLoading) return <Loading height={true}/>
   return (
     <div>
-      {role ==='user' && <UserStatistics/>}
-      {role ==='moderator' && <ModeratorStatistics/>}
       {role === 'admin' && <AdminStatistics/>}
     </div>
   );

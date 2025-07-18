@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import useRole from "../../../Hooks/useRole";
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
@@ -21,6 +22,7 @@ const HorizontalCard = ({ app }) => {
   const navigate = useNavigate();
   const { user, theme } = useAuth();
   const queryClient = useQueryClient();
+  const [role,isRoleLoading]=useRole()
 
 
   const isOwner = user?.email === app.owner?.email;
@@ -30,7 +32,7 @@ const HorizontalCard = ({ app }) => {
   const upvoteMutation = useMutation({
   mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user?.email }),
   onSuccess: () => {
-   
+       toast.success('successfully added voted')
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
@@ -58,7 +60,6 @@ const HorizontalCard = ({ app }) => {
       return;
     }
     if (isOwner || hasUserUpvoted) return;
-
     upvoteMutation.mutate();
   };
 
@@ -67,7 +68,7 @@ const HorizontalCard = ({ app }) => {
       navigate('/login');
       return;
     }
-    if (isOwner || !hasUserUpvoted) return;
+    if (isOwner) return;
 
     undoUpvoteMutation.mutate();
   };
@@ -107,9 +108,8 @@ const HorizontalCard = ({ app }) => {
           disabled={
   !user ||
   isOwner ||
-  hasUserUpvoted ||
-  upvoteMutation.isLoading ||
-  user?.role !== "user"
+  role !=='user'
+
 }
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
@@ -120,13 +120,13 @@ const HorizontalCard = ({ app }) => {
 
         <button
           onClick={handleDownvote}
-          disabled={
+           disabled={
   !user ||
   isOwner ||
-  hasUserUpvoted ||
-  upvoteMutation.isLoading ||
-  user?.role !== "user"
+  role !=='user'
+
 }
+ 
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
           <TbTriangleInverted />

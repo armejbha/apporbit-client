@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { Link, useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useRole from "../../../Hooks/useRole";
+import toast from "react-hot-toast";
 
 
 
@@ -34,7 +35,7 @@ const VerticalCard = ({ app }) => {
   const upvoteMutation = useMutation({
   mutationFn: () => axiosSecure.patch(`/apps/upvote/${app._id}`, { user: user?.email }),
   onSuccess: () => {
-   
+    toast.success('successfully added voted')
     queryClient.invalidateQueries(['apps', app._id]);
   },
   onError: (error) => {
@@ -71,7 +72,7 @@ const VerticalCard = ({ app }) => {
       navigate('/login');
       return;
     }
-    if (isOwner || !hasUserUpvoted) return;
+    if (isOwner) return;
 
     undoUpvoteMutation.mutate();
   };
@@ -99,13 +100,12 @@ const VerticalCard = ({ app }) => {
       <div className="flex  items-center gap-1 mt-4">
         <button
           onClick={handleDownvote}
-           disabled={
-            !user ||
-            isOwner ||
-            hasUserUpvoted ||
-            upvoteMutation.isLoading ||
-            user?.role !== "user"
-          }
+          disabled={
+  !user ||
+  isOwner ||
+  role !=='user'
+
+}
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed  transition-all duration-100`}
         >
           <TbTriangleInverted />
@@ -115,12 +115,11 @@ const VerticalCard = ({ app }) => {
         <button
           onClick={handleUpvote}
           disabled={
-            !user ||
-            isOwner ||
-            hasUserUpvoted ||
-            upvoteMutation.isLoading ||
-            user?.role !== "user"
-          }
+  !user ||
+  isOwner ||
+  role !=='user'
+
+}
           className={`p-2 rounded-md border-2 border-gray-200 ${theme === "dark" ? 'hover:bg-[#838383]' : 'hover:bg-white'} disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-100`}
         >
           <LuTriangle className={`${theme === "dark" ? 'text-white hover:text-black' : ''} transition-all duration-100`} />

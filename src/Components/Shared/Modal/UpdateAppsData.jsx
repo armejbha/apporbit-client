@@ -88,9 +88,9 @@ const UpdateAppsData = ({ isOpen, close, app }) => {
   };
 
   return (
-    <Dialog open={isOpen} as="div" className="relative z-10 h-[70vh]" onClose={close}>
+    <Dialog open={isOpen} as="div" className="relative z-100 h-[70vh]" onClose={close}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-      <div className="fixed inset-0 z-10 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="fixed inset-0 z-100 flex items-center justify-center p-4 overflow-y-auto">
         <DialogPanel className={`w-full max-w-4xl h-[90vh] overflow-y-auto rounded-xl p-6 shadow-lg ${theme === "dark" ? 'bg-[#0a0e19]' : 'bg-white'}`}>
           <DialogTitle className="text-2xl font-bold mb-6">
             Update App

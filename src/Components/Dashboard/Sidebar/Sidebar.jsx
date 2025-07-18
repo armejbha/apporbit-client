@@ -25,7 +25,7 @@ const Sidebar = ({toggle,theme,logo}) => {
             <div className='flex flex-col justify-between h-[85vh]'>
                 {/* part 1 */}
                 <div>
-                <MenuItem icon={FcStatistics} label='Statistics' address='/dashboard' />
+                
                 {role === "admin" && <AdminMenu/>}
                 {role === "moderator" && <ModeratorMenu/>}
                 {role === "user" && <UserMenu/>}
@@ -35,9 +35,10 @@ const Sidebar = ({toggle,theme,logo}) => {
                 <hr/>
 
                 <MenuItem
+                  end
                   icon={FcSettings}
                   label='Profile'
-                  address='/dashboard/profile'
+                  address='/dashboard'
                 />
                 <button
                   onClick={logOut}

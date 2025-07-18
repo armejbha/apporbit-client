@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
+import Loading from "../Shared/Loading/Loading";
 
 const CouponSlider = () => {
   const {theme}=useAuth();
@@ -18,14 +19,18 @@ const CouponSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const axiosSecure=useAxiosSecure()
 
-  const { data: coupons = [] } = useQuery({
+  const { data: coupons = [] ,isLoading} = useQuery({
     queryKey: ["validCoupons"],
     queryFn: async () => {
       const res = await axiosSecure.get("/coupons");
       return res.data;
     },
   });
-
+if (isLoading) return (
+    <div className="min-h-[400px] flex items-center justify-center">
+        <Loading />
+     </div>
+  )
   return (
     <div className={`my-20 rounded-md ${theme === "dark" ? 'bg-[#0a0e19]' : 'bg-[#FAF6F5]'}`}>
       <div className="relative">
@@ -96,7 +101,7 @@ const CouponSlider = () => {
                     className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                   >
                     <Link
-                      to="/purchase-membership"
+                      to="/dashboard"
                       className="bg-primary text-white px-5 py-2 rounded hover:bg-secondary transition"
                     >
                       Use Coupon

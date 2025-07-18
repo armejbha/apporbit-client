@@ -4,12 +4,12 @@ import Loading from '../Loading/Loading';
 
 const CreateCoupons = ({isOpen,close,handleSubmit}) => {
     return (
-        <Dialog open={isOpen} as="div" className="relative z-10" onClose={close}>
+        <Dialog open={isOpen} as="div" className="relative z-100" onClose={close}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-      <div className="fixed inset-0 z-10 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
         <DialogPanel className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
           <DialogTitle className="text-xl font-semibold text-gray-800 mb-4">
-            Create A Token
+            Create A Coupon
           </DialogTitle>
 
           <form onSubmit={handleSubmit} className="space-y-4">

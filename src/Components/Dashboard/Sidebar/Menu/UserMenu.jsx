@@ -10,7 +10,7 @@ const UserMenu = () => {
     <>
       <MenuItem icon={BsCollectionFill} label='My Apps' address='/dashboard/my-apps' />
       <MenuItem icon={BsFillHouseAddFill} label='Add Apps' address='/dashboard/add-apps' />
-      <MenuItem icon={MdAddModerator} label ="Become A Moderator" address="/dashboard/become-moderator"/>
+      {/* <MenuItem icon={MdAddModerator} label ="Become A Moderator" address="/dashboard/become-moderator"/> */}
   
     </>
   )

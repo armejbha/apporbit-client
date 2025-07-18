@@ -3,7 +3,8 @@ import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
-import axios from 'axios';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 
 
 const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
@@ -15,7 +16,23 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
   const [couponCode, setCouponCode] = useState("");
   const [processing, setProcessing] = useState(false);
   const [cardError, setCardError] = useState("");
+  const queryClient = useQueryClient();
 
+
+const { mutate: subscribeUser } = useMutation({
+    mutationFn: async (email) => {
+      const res = await axiosSecure.patch("/subscribe-user", { email });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user"]); // optional: refetch user
+      toast.success("Payment successful! You are now subscribed.");
+      closePaymentModal();
+    },
+    onError: () => {
+      toast.error("Subscription update failed.");
+    }
+  });
 
  const handlePayment=async(e)=>{
      e.preventDefault();
@@ -50,6 +67,7 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
       amount
     })
     const clientSecret=res.data.clientSecret;
+    console.log(clientSecret);
     const result = await stripe.confirmCardPayment(
         clientSecret,
         {
@@ -59,23 +77,19 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
           },
         }
       );
-      // console.log(result.paymentIntent);
+    
       const paymentIntent=result.paymentIntent;
       if (result?.error) {
         console.error("Stripe Payment Error:", error);
-        setCardError(error.message);
-        toast.error(error.message);
+        setCardError(error)
+        toast.error(error);
         setProcessing(false);
         return;
       } 
       else {
         if(paymentIntent?.status === "succeeded") {
-        console.log("PaymentIntent:", paymentIntent);
-        // update user role / subscription in DB
-        await axiosSecure.patch("/subscribe-user", { email });
+        subscribeUser(email);
 
-        toast.success("Payment successful! You are now subscribed.");
-        closePaymentModal();
       }
       }
     }
@@ -89,64 +103,6 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
  }
 
 
-  // const handlePayment = async (e) => {
-  //   e.preventDefault();
-  //   const name = e.target.name.value;
-  //   const email = e.target.email.value;
-    
-  //   if (!stripe || !elements) return;
-
-  //   setProcessing(true);
-  //   const paymentData={
-  //       amount:parseFloat(amount),
-  //       name,
-  //       email,
-  //       couponCode,
-  //   }
-  //   console.log(paymentData)
-  //   try {
-  //     // Create Payment Intent from server
-  //     const { data } = await axiosSecure.post("/create-payment-intent", paymentData);
-  //     console.log(data);
-  //     const clientSecret = data.clientSecret;
-  //     console.log("Client Secret:", clientSecret);
-
-      
-  //     const { paymentIntent, error } = await stripe.confirmCardPayment(
-  //       clientSecret,
-  //       {
-  //         payment_method: {
-  //           card: elements.getElement(CardElement),
-  //           billing_details: { name, email },
-  //         },
-  //       }
-  //     );
-
-  //     if (error) {
-  //       console.error("Stripe Payment Error:", error);
-  //       setCardError(error.message);
-  //       toast.error(error.message);
-  //       setProcessing(false);
-  //       return;
-  //     }
-
-      
-  //     if (paymentIntent.status === "succeeded") {
-  //       console.log("PaymentIntent:", paymentIntent);
-
-  //       // update user role / subscription in DB
-  //       await axiosSecure.patch("/subscribe-user", { email });
-
-  //       toast.success("Payment successful! You are now subscribed.");
-  //       closePaymentModal();
-  //     }
-  //   } catch (err) {
-  //     console.error("Server Error:", err);
-  //     toast.error("Payment failed. Please try again.");
-  //   } finally {
-  //     setProcessing(false);
-  //   }
-  // };
 
   return (
     <Dialog open={isPaymentOpen} as="div" className="relative z-50" onClose={closePaymentModal}>
@@ -223,6 +179,9 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
               <div className="p-3 border border-gray-300 focus:border-none  rounded-md bg-base-100">
                 <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
               </div>
+              {
+                cardError && <p className='text-red-500'>{cardError}</p>
+              }
             </div>
 
             {/* Buttons */}
@@ -241,9 +200,7 @@ const PaymentModal = ({ isPaymentOpen, closePaymentModal,user }) => {
               >
                 {processing ? 'Processing...' : 'Pay Now'}
               </button>
-              {
-                cardError && <p className='text-red-500'>{cardError}</p>
-              }
+              
             </div>
           </form>
         </DialogPanel>

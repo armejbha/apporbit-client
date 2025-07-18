@@ -1,155 +1,191 @@
-import { Children, Component } from "react";
+// src/Routes/router.js
+import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
-import RootLayouts from "../Layouts/RootLayouts";
-import ErrorPage from "../Pages/ErrorPage";
-import Home from "../Pages/Home/Home";
-import LogIn from "../Pages/LogIn/LogIn";
-import SignUp from "../Pages/SignUp/SignUp";
-import DashboardLayouts from "../Layouts/DashboardLayouts";
-import BecomeModerator from "../Pages/Dashboard/User/BecomeModerator";
-import ReviewSubmission from "../Pages/Dashboard/Moderator/ReviewSubmission";
-import ReportedProducts from "../Pages/Dashboard/Moderator/ReportedProducts";
-import ManageUser from "../Pages/Dashboard/Admin/ManageUser";
+import Loading from "../Components/Shared/Loading/Loading";
 import PrivateRoutes from "./PrivateRoutes";
 import ModeratorRoute from "./ModeratorRoute";
 import AdminRoute from "./AdminRoute";
-import Profile from "../Pages/Dashboard/Common/Profile";
-import MyApps from "../Pages/Dashboard/User/MyApps";
-import AddApps from "../Pages/Dashboard/User/AddApps.jsx";
-import AppsDetails from "../Pages/AppsDetails/AppsDetails.jsx";
-import ProductDescription from "../Pages/AppsDetails/ProductDescription.jsx";
-import ProductReviews from "../Pages/AppsDetails/ProductReviews.jsx";
-import Statistics from "../Pages/Dashboard/Common/Statistics.jsx";
-import Apps from "../Pages/Apps/Apps.jsx";
-import ManageCoupons from "../Pages/Dashboard/Admin/ManageCoupons.jsx";
 
+// Lazy-loaded pages and layouts
+const RootLayouts = lazy(() => import("../Layouts/RootLayouts"));
+const DashboardLayouts = lazy(() => import("../Layouts/DashboardLayouts"));
+const ErrorPage = lazy(() => import("../Pages/ErrorPage"));
 
+const Home = lazy(() => import("../Pages/Home/Home"));
+const LogIn = lazy(() => import("../Pages/LogIn/LogIn"));
+const SignUp = lazy(() => import("../Pages/SignUp/SignUp"));
 
-export const router=createBrowserRouter([
-    {
-        path:"/",
-        element:<RootLayouts/>,
-        errorElement:<ErrorPage/>,
-        children:[
-            {
-                index:true,
-                element:<Home/>
-            },
-            {
-                path:"/apps",
-                element:<Apps/>
-            },
-            {
-                path:"/appsDetails/:id",
-                element:(
-                <PrivateRoutes>
-                    <AppsDetails></AppsDetails>
-                </PrivateRoutes>
-                ),
-                children: [
-                   {
-                     index:true,
-                     element: <ProductDescription />
-                   },
-                   {
-                     path:"description",
-                     element: <ProductDescription />
-                   },
-                   {
-                     path: "reviews",
-                     element: <ProductReviews />
-                   }
-                 ]
+const Apps = lazy(() => import("../Pages/Apps/Apps"));
+const AppsDetails = lazy(() => import("../Pages/AppsDetails/AppsDetails"));
+const ProductDescription = lazy(() => import("../Pages/AppsDetails/ProductDescription"));
+const ProductReviews = lazy(() => import("../Pages/AppsDetails/ProductReviews"));
 
-            },
-            {
-                path:"login",
-                element:<LogIn/>
-            },
-            {
-                path:"signup",
-                element:<SignUp/>
-            }
-        
-    ]
-    },
-    {
-        path:"/dashboard",
-        element:
-        <PrivateRoutes>
-            <DashboardLayouts/>
-        </PrivateRoutes>
-        ,
-        children:[
-           {
-            index:true,
-            element:
-            <PrivateRoutes>
-                <Statistics/>
-            </PrivateRoutes>
-           },
-           {
-            path:'/dashboard/my-apps',
-            element:<PrivateRoutes>
-                <MyApps/>
-            </PrivateRoutes>,
-           },
-        //    {
-        //     path:'/dashboard/my-apps/:id',
-        //     element:
-        //    },
-           {
-            path:"/dashboard/add-apps",
-            element:<AddApps/>
-           },
-           {
-            path:"/dashboard/become-moderator",
-            element:<BecomeModerator/>
-           },
-           {
-            path:"/dashboard/review-submission",
-            element:<PrivateRoutes>
-                <ModeratorRoute>
-                    <ReviewSubmission/>
-                </ModeratorRoute>
-            </PrivateRoutes>
-           },
-           {
-            path:"/dashboard/reported-products",
-            element:
-            <PrivateRoutes>
-                <ModeratorRoute>
-                    <ReportedProducts/>
-                </ModeratorRoute>
-            </PrivateRoutes>
-           },
-           {
-            path:"/dashboard/manage-users",
-            element:<PrivateRoutes>
-                <AdminRoute>
-                    <ManageUser/>
-                </AdminRoute>
-            </PrivateRoutes>
-           },
-           {
-            path:"/dashboard/manage-coupons",
-            element:<PrivateRoutes>
-                <AdminRoute>
-                     <ManageCoupons/>
-                </AdminRoute>
-            </PrivateRoutes>
-           },
-           {
-            path:"/dashboard/profile",
-            element:<PrivateRoutes>
-                <Profile/>
-            </PrivateRoutes>
-           }
-        ]
-    },
-    {
-        path:"*",
-        element:<ErrorPage/>
-    }
+const Profile = lazy(() => import("../Pages/Dashboard/Common/Profile"));
+const Statistics = lazy(() => import("../Pages/Dashboard/Common/Statistics"));
 
-])
+const MyApps = lazy(() => import("../Pages/Dashboard/User/MyApps"));
+const AddApps = lazy(() => import("../Pages/Dashboard/User/AddApps"));
+
+const ReviewSubmission = lazy(() => import("../Pages/Dashboard/Moderator/ReviewSubmission"));
+const ReportedProducts = lazy(() => import("../Pages/Dashboard/Moderator/ReportedProducts"));
+
+const ManageUser = lazy(() => import("../Pages/Dashboard/Admin/ManageUser"));
+const ManageCoupons = lazy(() => import("../Pages/Dashboard/Admin/ManageCoupons"));
+
+// Reusable wrapper
+const withSuspense = (element) => (
+  <Suspense fallback={
+  <div className="min-h-[400px] flex items-center justify-center">
+    <Loading />
+  </div>
+}>
+  {element}
+</Suspense>
+);
+
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: withSuspense(<RootLayouts />),
+    errorElement: withSuspense(<ErrorPage />),
+    children: [
+      {
+        index: true,
+        element: withSuspense(<Home />),
+        handle: { title: "Home" },
+      },
+      {
+        path: "apps",
+        element: withSuspense(<Apps />),
+        handle: { title: "All Apps" },
+      },
+      {
+        path: "appsDetails/:id",
+        element: withSuspense(
+          <PrivateRoutes>
+            <AppsDetails />
+          </PrivateRoutes>
+        ),
+        handle: { title: "App Details" },
+        children: [
+          {
+            index: true,
+            element: withSuspense(<ProductDescription />),
+          },
+          {
+            path: "description",
+            element: withSuspense(<ProductDescription />),
+          },
+          {
+            path: "reviews",
+            element: withSuspense(<ProductReviews />),
+          },
+        ],
+      },
+      {
+        path: "login",
+        element: withSuspense(<LogIn />),
+        handle: { title: "Login" },
+      },
+      {
+        path: "signup",
+        element: withSuspense(<SignUp />),
+        handle: { title: "Sign Up" },
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: withSuspense(
+      <PrivateRoutes>
+        <DashboardLayouts />
+      </PrivateRoutes>
+    ),
+    handle: { title: "Dashboard" },
+    children: [
+      {
+        index: true,
+        element: withSuspense(
+          <PrivateRoutes>
+            <Profile />
+          </PrivateRoutes>
+        ),
+        handle: { title: "My Profile" },
+      },
+      {
+        path: "my-apps",
+        element: withSuspense(
+          <PrivateRoutes>
+            <MyApps />
+          </PrivateRoutes>
+        ),
+        handle: { title: "My Apps" },
+      },
+      {
+        path: "add-apps",
+        element: withSuspense(<AddApps />),
+        handle: { title: "Add App" },
+      },
+      {
+        path: "review-submission",
+        element: withSuspense(
+          <PrivateRoutes>
+            <ModeratorRoute>
+              <ReviewSubmission />
+            </ModeratorRoute>
+          </PrivateRoutes>
+        ),
+        handle: { title: "Review Submissions" },
+      },
+      {
+        path: "reported-products",
+        element: withSuspense(
+          <PrivateRoutes>
+            <ModeratorRoute>
+              <ReportedProducts />
+            </ModeratorRoute>
+          </PrivateRoutes>
+        ),
+        handle: { title: "Reported Products" },
+      },
+      {
+        path: "manage-users",
+        element: withSuspense(
+          <PrivateRoutes>
+            <AdminRoute>
+              <ManageUser />
+            </AdminRoute>
+          </PrivateRoutes>
+        ),
+        handle: { title: "Manage Users" },
+      },
+      {
+        path: "manage-coupons",
+        element: withSuspense(
+          <PrivateRoutes>
+            <AdminRoute>
+              <ManageCoupons />
+            </AdminRoute>
+          </PrivateRoutes>
+        ),
+        handle: { title: "Manage Coupons" },
+      },
+      {
+        path: "statistics",
+        element: withSuspense(
+          <PrivateRoutes>
+            <AdminRoute>
+              <Statistics />
+            </AdminRoute>
+          </PrivateRoutes>
+        ),
+        handle: { title: "Statistics" },
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: withSuspense(<ErrorPage />),
+    handle: { title: "Page Not Found" },
+  },
+]);

@@ -28,7 +28,7 @@ const Apps = () => {
     queryKey: ["apps", currentPage, searchQuery, dateSort, nameSort],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/apps/paginated?page=${currentPage}&limit=${limit}&search=${searchQuery}&date=${dateSort}&name=${nameSort}`
+        `/apps/accepted/paginated?page=${currentPage}&limit=${limit}&search=${searchQuery}&date=${dateSort}&name=${nameSort}`
       );
       return res.data;
     },

@@ -99,7 +99,7 @@ const ReviewSubmission = () => {
                         to={`/appsDetails/${app._id}`}
                         className=" px-4 py-1 rounded-full bg-primary"
                       >
-                        View Details
+                        Details
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-center">

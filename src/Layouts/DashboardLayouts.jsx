@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import ProfileLogo from '../Components/Shared/Navbar/ProfileLogo';
-import { Outlet } from 'react-router';
+import { Outlet,useMatches } from 'react-router';
 import logo from '../assets/logo.png';
 import useAuth from '../Hooks/useAuth';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Sidebar from '../Components/Dashboard/Sidebar/Sidebar';
+import { useEffect } from 'react';
 
 const DashboardLayouts = () => {
   const [toggle, setToggle] = useState(false);
   const {theme,toggleTheme}=useAuth();
+const matches = useMatches();
 
+  useEffect(() => {
+    const currentMatch = matches[matches.length - 1];
+    const pageTitle = currentMatch?.handle?.title
+      ? `AppOrbit / Dashboard / ${currentMatch.handle.title}`
+      : 'AppOrbit / Dashboard';
+    document.title = pageTitle;
+  }, [matches]);
   return (
     <div className={`${theme ==="dark" ? '':'bg-[#f6f7f9]'} `}>
       <div className="drawer lg:drawer-open">

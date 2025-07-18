@@ -42,7 +42,7 @@ const ProfileLogo = () => {
       </summary>
       <ul className="menu dropdown-content bg-base-100 rounded-md z-10 w-48 shadow-md mt-2">
         <li className="border-b border-gray-200">
-            <NavLink to="/dashboard/profile"   className={navLinkStyles}>
+            <NavLink to="/dashboard"   className={navLinkStyles}>
                 <BsPersonCircle />
                 <span className="-mt-[1px]">{user?.displayName}</span>
             </NavLink>

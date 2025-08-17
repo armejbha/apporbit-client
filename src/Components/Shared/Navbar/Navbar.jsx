@@ -58,6 +58,12 @@ const Navbar = () => {
             <NavLink to="/apps" className={navLinkStyles}>
               Apps
             </NavLink>
+            <NavLink to="/about" className={navLinkStyles}>
+              About Us
+            </NavLink>
+            <NavLink to="/contact" className={navLinkStyles}>
+              Contact
+            </NavLink>
           </div>
 
           {/* Right Section */}

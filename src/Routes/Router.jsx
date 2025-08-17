@@ -12,6 +12,8 @@ const DashboardLayouts = lazy(() => import("../Layouts/DashboardLayouts"));
 const ErrorPage = lazy(() => import("../Pages/ErrorPage"));
 
 const Home = lazy(() => import("../Pages/Home/Home"));
+const About = lazy(() => import("../Pages/About/About"));
+const Contact = lazy(() => import("../Pages/Contact/Contact"));
 const LogIn = lazy(() => import("../Pages/LogIn/LogIn"));
 const SignUp = lazy(() => import("../Pages/SignUp/SignUp"));
 
@@ -58,6 +60,16 @@ export const router = createBrowserRouter([
         path: "apps",
         element: withSuspense(<Apps />),
         handle: { title: "All Apps" },
+      },
+      {
+        path: "about",
+        element: withSuspense(<About />),
+        handle: { title: "About" },
+      },
+      {
+        path: "contact",
+        element: withSuspense(<Contact />),
+        handle: { title: "Contact" },
       },
       {
         path: "appsDetails/:id",

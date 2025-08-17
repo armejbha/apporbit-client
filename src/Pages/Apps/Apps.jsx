@@ -7,7 +7,6 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import HorizontalCard from "../../Components/Shared/Card/HorizontalCard";
 import Loading from "../../Components/Shared/Loading/Loading";
 
-
 const Apps = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -50,14 +49,16 @@ const Apps = () => {
     localStorage.setItem("viewType", type);
   };
 
-  if (isLoading) return (
-    <div className="min-h-[400px] flex items-center justify-center">
+  if (isLoading)
+    return (
+      <div className="min-h-[400px] flex items-center justify-center">
         <Loading />
-     </div>
-  )
+      </div>
+    );
 
   return (
     <div className="max-w-7xl mx-auto my-20 px-4 md:px-0">
+      {/* Go Back */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center text-xl mb-6 text-primary hover:underline"
@@ -86,7 +87,42 @@ const Apps = () => {
 
         {/* Sort & View Toggle */}
         <div className="flex items-center gap-4">
-          
+          {/* Sort by Date */}
+          <div className="flex items-center gap-1">
+            <label className="text-gray-700 font-medium">Sort by Date:</label>
+            <button
+              onClick={() => {
+                setDateSort(dateSort === "asc" ? "desc" : "asc");
+                setCurrentPage(1);
+              }}
+              className="btn btn-sm btn-outline btn-primary"
+            >
+              {dateSort === "asc"
+                ? "⬆️ Asc"
+                : dateSort === "desc"
+                ? "⬇️ Desc"
+                : "Sort"}
+            </button>
+          </div>
+
+          {/* Sort by Name */}
+          {/* <div className="flex items-center gap-1">
+            <label className="text-gray-700 font-medium">Sort by Name:</label>
+            <button
+              onClick={() => {
+                setNameSort(nameSort === "asc" ? "desc" : "asc");
+                setCurrentPage(1);
+              }}
+              className="btn btn-sm btn-outline btn-primary"
+            >
+              {nameSort === "asc"
+                ? "A-Z"
+                : nameSort === "desc"
+                ? "Z-A"
+                : "Sort"}
+            </button>
+          </div> */}
+
           {/* View Toggle */}
           <button
             onClick={() => handleViewChange("grid")}

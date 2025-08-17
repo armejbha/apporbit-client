@@ -34,12 +34,14 @@ const Footer = () => {
                   <ul className="space-y-2 mt-6">
                     <li><NavLink to="/" className={navLinkStyles}>Home</NavLink></li>
                     <li><NavLink to="/apps" className={navLinkStyles}>Apps</NavLink></li>
+                    <li><NavLink to="/about" className={navLinkStyles}>About</NavLink></li>
+                    <li><NavLink to="/contact" className={navLinkStyles}>Contact</NavLink></li>
                     
                   </ul>
                   </div>
                 </div>
 
-                <div className='md:flex justify-center items-center'>
+                <div className='md:flex justify-center items-start'>
                  <div>
                     <h2 className="text-xl font-semibold">
                    Contact Us

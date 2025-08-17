@@ -3,7 +3,7 @@ import { FiCreditCard } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
 import { MdContactPhone, MdOutlineSpaceDashboard } from "react-icons/md";
 
-import { LuLogOut } from "react-icons/lu";
+import { LuContactRound, LuLogOut } from "react-icons/lu";
 import { NavLink } from "react-router";
 
 import { IoMdHome } from "react-icons/io";
@@ -48,14 +48,29 @@ const ProfileLogo = () => {
             </NavLink>
         </li>
         <ul className="md:hidden">
-          <li  className=" border-y border-gray-200">
+          <li  className="">
             <NavLink to="/" className={navLinkStyles}>
               <IoMdHome />
               Home
             </NavLink>
-            <NavLink to="/apps" className={navLinkStyles}>
+          </li>
+          <li>
+<NavLink to="/apps" className={navLinkStyles}>
               <FaAppStore />
               Apps
+            </NavLink>
+          </li>
+            <li>
+              <NavLink to="/about" className={navLinkStyles}>
+            <FcAbout />
+              About Us
+            </NavLink>
+            </li>
+            
+          <li>
+            <NavLink to="/contact" className={navLinkStyles}>
+              <LuContactRound/>
+              Contact
             </NavLink>
           </li>    
         </ul>

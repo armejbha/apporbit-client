@@ -9,6 +9,7 @@ import logo from "../../../assets/logo.png";
 import Logo from "../Logo";
 import toast from "react-hot-toast";
 import { Tooltip } from "react-tooltip";
+import { BsPersonCircle } from "react-icons/bs";
 
 const Navbar = () => {
 
@@ -64,6 +65,12 @@ const Navbar = () => {
             <NavLink to="/contact" className={navLinkStyles}>
               Contact
             </NavLink>
+            {
+              user&& 
+              <NavLink to="/dashboard"   className={navLinkStyles}>
+                  Profile
+              </NavLink>
+            }
           </div>
 
           {/* Right Section */}
@@ -126,8 +133,20 @@ const Navbar = () => {
                   <NavLink to="/" className={mobileNavLinkStyles}>
                     Home
                   </NavLink>
+                </li>
+                <li>
                   <NavLink to="/apps" className={mobileNavLinkStyles}>
                     Apps
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/about" className={mobileNavLinkStyles}>
+                    About Us
+                  </NavLink>
+                </li>
+                <li>  
+                  <NavLink to="/contact" className={mobileNavLinkStyles}>
+                    Contact
                   </NavLink>
                 </li>
                 <li>

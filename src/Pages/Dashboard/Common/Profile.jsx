@@ -136,7 +136,7 @@ const Profile = () => {
 };
 
 // Helper component for cleaner UI
-const InfoCard = ({ icon, label, value }) => (
+const InfoCar = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 bg-gray-100 p-4 rounded-lg">
     {icon}
     <div>

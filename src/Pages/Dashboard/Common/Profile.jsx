@@ -140,7 +140,7 @@ const InfoCard = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 bg-gray-100 p-4 rounded-lg">
     {icon}
     <div>
-      <p className="text-xs text-gray-500">{label}</p>
+      <p className="text-xs text-gray-500">{label} name</p>
       <p className="font-semibold break-all">{value}</p>
     </div>
   </div>

@@ -1,6 +1,6 @@
 # 🚀 AppOrbit
 
-AppOrbit is a full-stack MERN application that allows users to discover, share, and review innovative tech products including AI tools, web apps, mobile apps, games, and more—similar to [Product Hunt](https://producthunt.com). It features role-based access (User, Moderator, Admin), product moderation, premium membership subscriptions via Stripe, and more.
+AppOrbit is a full-stack MERN application that allows users to discover, share, and review innovative tech products including AI tools, web apps, mobile apps, games. It features role-based access (User, Moderator, Admin), product moderation, premium membership subscriptions via Stripe, and more.
 
 ## 🌐 Live Site
 

@@ -49,7 +49,7 @@ const BlogSection = () => {
   return (
     <section className={`rounded-md py-16 px-10 text-base-content mb-20 ${theme==="dark" ? 'bg-[#0a0e19]': 'bg-[#faf5f6]'}`}>
       <div className="">
-        <h2 className="text-4xl font-bold text-center mb-12">📰 Latest Tech Blogs</h2>
+        <h2 className="text-center text-3xl font-bold text-primary mb-12"> Latest Tech Blogs</h2>
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {blogs.map((blog, index) => (
             <a

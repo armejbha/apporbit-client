@@ -121,7 +121,23 @@ const Profile = () => {
                 <p className="font-semibold break-all">{user.email}</p>
               </div>
             </div>
+            {/* Phone */}
+            <div className="flex items-center gap-3 bg-gray-100 p-4 rounded-lg">
+              <FaUser className="text-xl text-primary" />
+              <div>
+                <p className="text-xs text-gray-500">Phone</p>
+                <p className="font-semibold">{user?.phone || "Not Added"}</p>
+              </div>
+            </div>
 
+            {/* Address */}
+            <div className="flex items-center gap-3 bg-gray-100 p-4 rounded-lg">
+              <FaUser className="text-xl text-primary" />
+              <div>
+                <p className="text-xs text-gray-500">Address</p>
+                <p className="font-semibold">{user?.address || "Not Added"}</p>
+              </div>
+            </div>
             {/* Last Logged In */}
             <div className="flex items-center gap-3 bg-gray-100 p-4 rounded-lg">
               <FaClock className="text-xl text-primary" />

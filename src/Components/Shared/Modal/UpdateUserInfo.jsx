@@ -8,17 +8,18 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { imageUpload } from '../../../Api/Utilities';
 import Loading from '../Loading/Loading';
 
-
 const UpdateUserInfo = ({ isOpen, close }) => {
-  const { user, updateUserProfile,refreshUser,loading,toggleTheme,theme } = useAuth();
+  const { user, updateUserProfile, refreshUser, loading, toggleTheme } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
   const [name, setName] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  //  React Query mutation for updating MongoDB
+  // React Query mutation for updating MongoDB
   const { mutateAsync: updateUser } = useMutation({
     mutationFn: async (userData) => {
       const res = await axiosSecure.patch(`/users/${userData.email}`, userData);
@@ -26,14 +27,14 @@ const UpdateUserInfo = ({ isOpen, close }) => {
     },
     onSuccess: () => {
       toast.success('Profile updated successfully!');
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] }); 
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
     onError: () => {
       toast.error('Failed to update user info in database');
     }
   });
 
-  //  Handle image upload
+  // Handle image upload
   const handleImage = async (event) => {
     const image = event.target.files[0];
     try {
@@ -47,27 +48,29 @@ const UpdateUserInfo = ({ isOpen, close }) => {
     }
   };
 
-  //  Submit handler
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await updateUserProfile(name, imageUrl);
-      
-    // Toggle theme
-    toggleTheme();
 
-    // Delay to let Firebase profile/theme update propagate
-    setTimeout(() => {
-      refreshUser(); // Ensure latest data is reloaded
-    }, 1000);
+      // Toggle theme
+      toggleTheme();
+
+      // Delay to let Firebase profile/theme update propagate
+      setTimeout(() => {
+        refreshUser();
+      }, 1000);
 
       const userData = {
         name,
         email: user?.email,
-        image: imageUrl
+        image: imageUrl,
+        phone,
+        address,
       };
 
-      await updateUser(userData); 
+      await updateUser(userData);
       close();
     } catch (error) {
       console.error(error);
@@ -75,9 +78,8 @@ const UpdateUserInfo = ({ isOpen, close }) => {
     }
   };
 
+  if (loading) return <Loading height={true} />;
 
-  if(loading) return <Loading height={true}/>
-  
   return (
     <Dialog open={isOpen} as="div" className="relative z-10" onClose={close}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
@@ -102,6 +104,36 @@ const UpdateUserInfo = ({ isOpen, close }) => {
                 placeholder="Enter your name"
                 required
               />
+            </div>
+
+            {/* Phone Field */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-800 mb-1">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none text-gray-800 focus:ring focus:ring-primary/50"
+                placeholder="Enter your phone number"
+              />
+            </div>
+
+            {/* Address Field */}
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-800 mb-1">
+                Address
+              </label>
+              <textarea
+                id="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none text-gray-800 focus:ring focus:ring-primary/50"
+                placeholder="Enter your address"
+                rows={2}
+              ></textarea>
             </div>
 
             {/* Image Upload Field */}

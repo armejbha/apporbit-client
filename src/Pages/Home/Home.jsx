@@ -7,6 +7,7 @@ import CouponSlider from '../../Components/Home/CouponSlider';
 import BlogSection from '../../Components/Home/BlogSection';
 import News from '../../Components/Home/News';
 import Reviews from '../../Components/Home/Reviews';
+import TutorialSection from '../../Components/Home/TutorialSection';
 
 
 
@@ -20,7 +21,7 @@ const Home = () => {
             <CouponSlider/>
             <Reviews/>
             <BlogSection/>
-
+            <TutorialSection/>
             <News/>
         </Container>
     );
